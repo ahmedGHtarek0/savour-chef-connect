@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Hero3D } from "@/components/Hero3D";
 import { Navbar } from "@/components/Navbar";
 import { SiteFooter } from "@/components/SiteFooter";
+import { FeaturedChefs } from "@/components/FeaturedChefs";
 import { Button } from "@/components/ui/button";
 import { ChefHat, MapPin, Sparkles, Heart } from "lucide-react";
 
@@ -85,6 +86,8 @@ function Index() {
           ))}
         </div>
       </section>
+
+      <FeaturedChefs />
 
       <SiteFooter />
     </div>
