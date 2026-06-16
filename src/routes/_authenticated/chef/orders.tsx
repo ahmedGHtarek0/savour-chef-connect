@@ -52,7 +52,7 @@ function ChefOrders() {
     return () => { supabase.removeChannel(ch); };
   }, []);
 
-  async function setStatus(orderId: string, status: typeof FLOW[number]["to"]) {
+  async function setStatus(orderId: string, status: "chef_preparing" | "ready_for_pickup" | "cancelled" | "delivered") {
     try {
       await update({ data: { orderId, status } });
       toast.success("Order updated");
