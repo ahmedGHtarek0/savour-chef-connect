@@ -26,7 +26,8 @@ function ChefPayouts() {
     },
   });
 
-  const balance = (ledger.data ?? []).reduce((s, l: any) => s + Number(l.amount ?? 0) * (l.direction === "credit" ? 1 : -1), 0);
+  const sign = (kind: string) => (kind === "chef_payout" || kind === "platform_cut" || kind === "refund" ? -1 : 1);
+  const balance = (ledger.data ?? []).reduce((s, l: any) => s + Number(l.amount ?? 0) * sign(l.kind), 0);
 
   return (
     <div className="space-y-6">
@@ -47,8 +48,8 @@ function ChefPayouts() {
             {ledger.data?.map((l: any) => (
               <tr key={l.id} className="border-t border-border">
                 <td className="p-3">{new Date(l.created_at).toLocaleDateString()}</td>
-                <td className="p-3 capitalize">{l.kind}</td>
-                <td className={`p-3 text-right font-medium ${l.direction === "credit" ? "text-green-500" : "text-destructive"}`}>{l.direction === "credit" ? "+" : "−"}{Number(l.amount).toFixed(2)}</td>
+                <td className="p-3 capitalize">{String(l.kind).replace(/_/g, " ")}</td>
+                <td className={`p-3 text-right font-medium ${sign(l.kind) > 0 ? "text-green-500" : "text-destructive"}`}>{sign(l.kind) > 0 ? "+" : "−"}{Number(l.amount).toFixed(2)}</td>
                 <td className="p-3 text-center"><Badge variant="outline">{l.status ?? "—"}</Badge></td>
               </tr>
             ))}
