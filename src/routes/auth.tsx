@@ -24,6 +24,20 @@ export const Route = createFileRoute("/auth")({
 
 type Role = "customer" | "chef" | "delivery";
 
+const demoAccounts = [
+  { label: "Admin", email: "admin@savora.com" },
+  { label: "Chef Amira", email: "chef.amira@savora.com" },
+  { label: "Customer", email: "customer5@savora.com" },
+  { label: "Delivery", email: "driver.mido@savora.com" },
+] as const;
+
+function normalizeDemoEmail(value: string) {
+  const normalized = value.trim().toLowerCase().replace(/[–—]/g, "-").replace(/\s+/g, "");
+  if (normalized === "driver.mido/rami/fady@savora.com") return "driver.mido@savora.com";
+  if (normalized === "customer5-8@savora.com") return "customer5@savora.com";
+  return normalized;
+}
+
 function AuthPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -42,7 +56,8 @@ function AuthPage() {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const signInEmail = normalizeDemoEmail(email);
+    const { error } = await supabase.auth.signInWithPassword({ email: signInEmail, password });
     setLoading(false);
     if (error) return toast.error(error.message);
     toast.success("Welcome back!");
@@ -110,6 +125,19 @@ function AuthPage() {
                 <div><Label htmlFor="password">{t("auth.password")}</Label><Input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)} /></div>
                 <Button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground">{t("auth.signin")}</Button>
               </form>
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                {demoAccounts.map(account => (
+                  <Button
+                    key={account.email}
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => { setEmail(account.email); setPassword("1234"); }}
+                  >
+                    {account.label}
+                  </Button>
+                ))}
+              </div>
             </TabsContent>
 
             <TabsContent value="signup">
