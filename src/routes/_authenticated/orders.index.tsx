@@ -39,7 +39,7 @@ function OrdersList() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge variant="outline">{o.status}</Badge>
-                  <Badge variant={o.payment_status === "paid" ? "default" : "secondary"}>{o.payment_status}</Badge>
+                  <Badge variant={o.payment_status === "verified" ? "default" : "secondary"}>{o.payment_status}</Badge>
                   <span className="text-lg font-semibold">{Number(o.total).toFixed(2)}</span>
                 </div>
               </div>
