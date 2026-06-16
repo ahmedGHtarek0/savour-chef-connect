@@ -55,7 +55,7 @@ export const placeOrder = createServerFn({ method: "POST" })
         delivery_fee: data.deliveryFee,
         discount: 0,
         total,
-        status: "pending",
+        status: "placed",
         payment_status: "pending",
       })
       .select("id")
