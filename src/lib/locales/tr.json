@@ -1,0 +1,52 @@
+{
+  "app": {
+    "name": "Savora",
+    "tagline": "Ev yapımı yemek, sevgiyle teslim"
+  },
+  "nav": {
+    "home": "Ana sayfa",
+    "browse": "Keşfet",
+    "chefs": "Şefler",
+    "login": "Giriş",
+    "signup": "Başla",
+    "dashboard": "Panel",
+    "logout": "Çıkış"
+  },
+  "hero": {
+    "title": "Otantik ev yapımı yemek, talep üzerine",
+    "subtitle": "Mahallendeki yetenekli ev şeflerini keşfet. Sipariş ver, takip et, tadını çıkar.",
+    "cta": "Sipariş ver",
+    "cta2": "Şef ol"
+  },
+  "auth": {
+    "signin": "Giriş",
+    "signup": "Hesap oluştur",
+    "email": "E-posta",
+    "phone": "Telefon",
+    "username": "Kullanıcı adı",
+    "password": "Şifre",
+    "fullName": "Tam ad",
+    "role": "Ben bir...",
+    "customer": "Müşteri",
+    "chef": "Ev şefi",
+    "delivery": "Kurye",
+    "or": "veya",
+    "haveAccount": "Hesabın var mı?",
+    "noAccount": "Hesabın yok mu?",
+    "withGoogle": "Google ile devam et",
+    "withPhone": "Telefon ile devam et"
+  },
+  "roles": {
+    "admin": "Admin",
+    "chef": "Şef",
+    "customer": "Müşteri",
+    "delivery": "Kurye"
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "continue": "Devam",
+    "welcome": "Hoş geldin"
+  }
+}

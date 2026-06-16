@@ -1,0 +1,52 @@
+{
+  "app": {
+    "name": "Savora",
+    "tagline": "Hausmannskost, mit Liebe geliefert"
+  },
+  "nav": {
+    "home": "Start",
+    "browse": "Entdecken",
+    "chefs": "Köche",
+    "login": "Anmelden",
+    "signup": "Loslegen",
+    "dashboard": "Dashboard",
+    "logout": "Abmelden"
+  },
+  "hero": {
+    "title": "Authentische Hausmannskost auf Bestellung",
+    "subtitle": "Entdecke talentierte Hobbyköche in deiner Nähe. Bestellen, verfolgen, genießen.",
+    "cta": "Jetzt bestellen",
+    "cta2": "Koch werden"
+  },
+  "auth": {
+    "signin": "Anmelden",
+    "signup": "Konto erstellen",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "fullName": "Voller Name",
+    "role": "Ich bin...",
+    "customer": "Kunde",
+    "chef": "Hobbykoch",
+    "delivery": "Lieferant",
+    "or": "oder",
+    "haveAccount": "Schon ein Konto?",
+    "noAccount": "Kein Konto?",
+    "withGoogle": "Mit Google fortfahren",
+    "withPhone": "Mit Telefon fortfahren"
+  },
+  "roles": {
+    "admin": "Admin",
+    "chef": "Koch",
+    "customer": "Kunde",
+    "delivery": "Lieferant"
+  },
+  "common": {
+    "loading": "Lädt...",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "continue": "Weiter",
+    "welcome": "Willkommen"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "app": {
+    "name": "Savora",
+    "tagline": "Cuisine maison, livrée avec amour"
+  },
+  "nav": {
+    "home": "Accueil",
+    "browse": "Parcourir",
+    "chefs": "Chefs",
+    "login": "Connexion",
+    "signup": "Commencer",
+    "dashboard": "Tableau",
+    "logout": "Déconnexion"
+  },
+  "hero": {
+    "title": "Cuisine maison authentique, à la demande",
+    "subtitle": "Découvrez des chefs talentueux près de chez vous. Commandez, suivez, savourez.",
+    "cta": "Commander",
+    "cta2": "Devenir chef"
+  },
+  "auth": {
+    "signin": "Connexion",
+    "signup": "Créer un compte",
+    "email": "Email",
+    "phone": "Téléphone",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "fullName": "Nom complet",
+    "role": "Je suis...",
+    "customer": "Client",
+    "chef": "Chef à domicile",
+    "delivery": "Livreur",
+    "or": "ou",
+    "haveAccount": "Déjà un compte ?",
+    "noAccount": "Pas de compte ?",
+    "withGoogle": "Continuer avec Google",
+    "withPhone": "Continuer avec téléphone"
+  },
+  "roles": {
+    "admin": "Admin",
+    "chef": "Chef",
+    "customer": "Client",
+    "delivery": "Livreur"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "continue": "Continuer",
+    "welcome": "Bienvenue"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "app": {
+    "name": "Savora",
+    "tagline": "Comida casera, entregada con amor"
+  },
+  "nav": {
+    "home": "Inicio",
+    "browse": "Explorar",
+    "chefs": "Chefs",
+    "login": "Iniciar sesión",
+    "signup": "Empezar",
+    "dashboard": "Panel",
+    "logout": "Salir"
+  },
+  "hero": {
+    "title": "Cocina casera auténtica, a pedido",
+    "subtitle": "Descubre chefs talentosos cerca de ti. Pide, rastrea y disfruta.",
+    "cta": "Pedir ahora",
+    "cta2": "Ser chef"
+  },
+  "auth": {
+    "signin": "Iniciar sesión",
+    "signup": "Crear cuenta",
+    "email": "Correo",
+    "phone": "Teléfono",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "fullName": "Nombre completo",
+    "role": "Soy...",
+    "customer": "Cliente",
+    "chef": "Chef casero",
+    "delivery": "Repartidor",
+    "or": "o",
+    "haveAccount": "¿Ya tienes cuenta?",
+    "noAccount": "¿No tienes cuenta?",
+    "withGoogle": "Continuar con Google",
+    "withPhone": "Continuar con teléfono"
+  },
+  "roles": {
+    "admin": "Admin",
+    "chef": "Chef",
+    "customer": "Cliente",
+    "delivery": "Repartidor"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "welcome": "Bienvenido"
+  }
+}
