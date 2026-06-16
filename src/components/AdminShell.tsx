@@ -1,15 +1,18 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { type ReactNode } from "react";
 import { Navbar } from "./Navbar";
-import { LayoutDashboard, FolderTree, UtensilsCrossed, Map, ShieldCheck, CreditCard } from "lucide-react";
+import { LayoutDashboard, FolderTree, UtensilsCrossed, Map, ShieldCheck, CreditCard, Bike, Receipt, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV = [
   { to: "/admin", label: "Overview", icon: LayoutDashboard },
+  { to: "/admin/analytics", label: "Analytics", icon: BarChart3 },
   { to: "/admin/categories", label: "Categories", icon: FolderTree },
   { to: "/admin/items", label: "Items library", icon: UtensilsCrossed },
   { to: "/admin/zones", label: "Zones", icon: Map },
   { to: "/admin/chefs", label: "Chef verification", icon: ShieldCheck },
+  { to: "/admin/drivers", label: "Driver verification", icon: Bike },
+  { to: "/admin/receipts", label: "Payment receipts", icon: Receipt },
   { to: "/admin/gateways", label: "Payment gateways", icon: CreditCard },
 ] as const;
 
