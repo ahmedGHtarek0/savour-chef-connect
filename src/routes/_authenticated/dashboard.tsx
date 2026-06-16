@@ -14,7 +14,7 @@ const ROLE_CARDS = {
   admin: { icon: Shield, title: "Admin console", body: "Manage chefs, zones, gateways, and verifications.", to: "/admin" as const },
   chef: { icon: ChefHat, title: "Chef kitchen", body: "Manage your menu, accept orders, track payouts.", to: "/chef" as const },
   customer: { icon: ShoppingBag, title: "Order food", body: "Browse home chefs near you and track your orders.", to: "/browse" as const },
-  delivery: { icon: Bike, title: "Delivery", body: "Accept jobs, navigate, and confirm drop-offs.", to: "/dashboard" as const },
+  delivery: { icon: Bike, title: "Delivery", body: "Accept jobs, navigate, and confirm drop-offs.", to: "/delivery" as const },
 } as const;
 
 function Dashboard() {
