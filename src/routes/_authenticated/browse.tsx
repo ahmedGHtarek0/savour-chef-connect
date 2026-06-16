@@ -2,8 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
-import { ShoppingBag, ChefHat, Clock } from "lucide-react";
+import { ShoppingBag, ChefHat, Clock, Search } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
+import { EmptyState } from "@/components/EmptyState";
+import { LoadingGrid } from "@/components/LoadingGrid";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -157,9 +159,20 @@ function BrowsePage() {
           })}
         </div>
 
-        {feed.isLoading && <p className="mt-10 text-center text-sm text-muted-foreground">Loading dishes…</p>}
+        {feed.isLoading && <div className="mt-8"><LoadingGrid count={6} /></div>}
         {!feed.isLoading && filtered.length === 0 && (
-          <p className="mt-10 text-center text-sm text-muted-foreground">No dishes match your filter yet.</p>
+          <div className="mt-10">
+            <EmptyState
+              icon={Search}
+              title="No dishes match your filters"
+              description="Try clearing your search, picking a different category, or raising the max price."
+              action={
+                <Button variant="outline" onClick={() => { setSearch(""); setCatId(null); setMaxPrice(""); }}>
+                  Clear filters
+                </Button>
+              }
+            />
+          </div>
         )}
       </div>
     </div>
