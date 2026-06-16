@@ -121,7 +121,7 @@ function AuthPage() {
 
             <TabsContent value="signin">
               <form onSubmit={handleSignIn} className="mt-4 space-y-3">
-                <div><Label htmlFor="email">{t("auth.email")}</Label><Input id="email" type="email" required value={email} onChange={e => setEmail(e.target.value)} /></div>
+                <div><Label htmlFor="email">{t("auth.email")}</Label><Input id="email" type="text" inputMode="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} /></div>
                 <div><Label htmlFor="password">{t("auth.password")}</Label><Input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)} /></div>
                 <Button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground">{t("auth.signin")}</Button>
               </form>
