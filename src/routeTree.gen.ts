@@ -18,6 +18,7 @@ import { Route as AuthenticatedBrowseRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedChefRouteRouteImport } from './routes/_authenticated/chef/route'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedOrdersIndexRouteImport } from './routes/_authenticated/orders.index'
+import { Route as AuthenticatedChefIndexRouteImport } from './routes/_authenticated/chef/index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedOrdersOrderIdRouteImport } from './routes/_authenticated/orders.$orderId'
 import { Route as AuthenticatedItemsChefItemIdRouteImport } from './routes/_authenticated/items.$chefItemId'
@@ -73,6 +74,11 @@ const AuthenticatedOrdersIndexRoute =
     path: '/orders/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedChefIndexRoute = AuthenticatedChefIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedChefRouteRoute,
+} as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -128,7 +134,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
-  '/chef': typeof AuthenticatedChefRouteRoute
+  '/chef': typeof AuthenticatedChefRouteRouteWithChildren
   '/browse': typeof AuthenticatedBrowseRoute
   '/cart': typeof AuthenticatedCartRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -141,12 +147,12 @@ export interface FileRoutesByFullPath {
   '/items/$chefItemId': typeof AuthenticatedItemsChefItemIdRoute
   '/orders/$orderId': typeof AuthenticatedOrdersOrderIdRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/chef/': typeof AuthenticatedChefIndexRoute
   '/orders/': typeof AuthenticatedOrdersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/chef': typeof AuthenticatedChefRouteRoute
   '/browse': typeof AuthenticatedBrowseRoute
   '/cart': typeof AuthenticatedCartRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -159,6 +165,7 @@ export interface FileRoutesByTo {
   '/items/$chefItemId': typeof AuthenticatedItemsChefItemIdRoute
   '/orders/$orderId': typeof AuthenticatedOrdersOrderIdRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/chef': typeof AuthenticatedChefIndexRoute
   '/orders': typeof AuthenticatedOrdersIndexRoute
 }
 export interface FileRoutesById {
@@ -167,7 +174,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
-  '/_authenticated/chef': typeof AuthenticatedChefRouteRoute
+  '/_authenticated/chef': typeof AuthenticatedChefRouteRouteWithChildren
   '/_authenticated/browse': typeof AuthenticatedBrowseRoute
   '/_authenticated/cart': typeof AuthenticatedCartRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -180,6 +187,7 @@ export interface FileRoutesById {
   '/_authenticated/items/$chefItemId': typeof AuthenticatedItemsChefItemIdRoute
   '/_authenticated/orders/$orderId': typeof AuthenticatedOrdersOrderIdRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/chef/': typeof AuthenticatedChefIndexRoute
   '/_authenticated/orders/': typeof AuthenticatedOrdersIndexRoute
 }
 export interface FileRouteTypes {
@@ -201,12 +209,12 @@ export interface FileRouteTypes {
     | '/items/$chefItemId'
     | '/orders/$orderId'
     | '/admin/'
+    | '/chef/'
     | '/orders/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
-    | '/chef'
     | '/browse'
     | '/cart'
     | '/dashboard'
@@ -219,6 +227,7 @@ export interface FileRouteTypes {
     | '/items/$chefItemId'
     | '/orders/$orderId'
     | '/admin'
+    | '/chef'
     | '/orders'
   id:
     | '__root__'
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/_authenticated/items/$chefItemId'
     | '/_authenticated/orders/$orderId'
     | '/_authenticated/admin/'
+    | '/_authenticated/chef/'
     | '/_authenticated/orders/'
   fileRoutesById: FileRoutesById
 }
@@ -312,6 +322,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/orders/'
       preLoaderRoute: typeof AuthenticatedOrdersIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/chef/': {
+      id: '/_authenticated/chef/'
+      path: '/'
+      fullPath: '/chef/'
+      preLoaderRoute: typeof AuthenticatedChefIndexRouteImport
+      parentRoute: typeof AuthenticatedChefRouteRoute
     }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
@@ -403,9 +420,23 @@ const AuthenticatedAdminRouteRouteWithChildren =
     AuthenticatedAdminRouteRouteChildren,
   )
 
+interface AuthenticatedChefRouteRouteChildren {
+  AuthenticatedChefIndexRoute: typeof AuthenticatedChefIndexRoute
+}
+
+const AuthenticatedChefRouteRouteChildren: AuthenticatedChefRouteRouteChildren =
+  {
+    AuthenticatedChefIndexRoute: AuthenticatedChefIndexRoute,
+  }
+
+const AuthenticatedChefRouteRouteWithChildren =
+  AuthenticatedChefRouteRoute._addFileChildren(
+    AuthenticatedChefRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
-  AuthenticatedChefRouteRoute: typeof AuthenticatedChefRouteRoute
+  AuthenticatedChefRouteRoute: typeof AuthenticatedChefRouteRouteWithChildren
   AuthenticatedBrowseRoute: typeof AuthenticatedBrowseRoute
   AuthenticatedCartRoute: typeof AuthenticatedCartRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
@@ -417,7 +448,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
-  AuthenticatedChefRouteRoute: AuthenticatedChefRouteRoute,
+  AuthenticatedChefRouteRoute: AuthenticatedChefRouteRouteWithChildren,
   AuthenticatedBrowseRoute: AuthenticatedBrowseRoute,
   AuthenticatedCartRoute: AuthenticatedCartRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
