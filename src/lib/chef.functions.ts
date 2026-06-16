@@ -25,9 +25,9 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
     if (oiErr) throw oiErr;
     if (!oi || oi.length === 0) throw new Error("Not your order");
 
-    const patch: Record<string, unknown> = { status: data.status };
-    if (data.status === "delivered") patch.delivered_at = new Date().toISOString();
-
+    const patch = data.status === "delivered"
+      ? { status: data.status, delivered_at: new Date().toISOString() }
+      : { status: data.status };
     const { error } = await supabase.from("orders").update(patch).eq("id", data.orderId);
     if (error) throw error;
     return { ok: true };
