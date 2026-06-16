@@ -23,6 +23,7 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedOrdersOrderIdRouteImport } from './routes/_authenticated/orders.$orderId'
 import { Route as AuthenticatedItemsChefItemIdRouteImport } from './routes/_authenticated/items.$chefItemId'
 import { Route as AuthenticatedChefsChefIdRouteImport } from './routes/_authenticated/chefs.$chefId'
+import { Route as AuthenticatedChefMenuRouteImport } from './routes/_authenticated/chef/menu'
 import { Route as AuthenticatedAdminZonesRouteImport } from './routes/_authenticated/admin/zones'
 import { Route as AuthenticatedAdminItemsRouteImport } from './routes/_authenticated/admin/items'
 import { Route as AuthenticatedAdminGatewaysRouteImport } from './routes/_authenticated/admin/gateways'
@@ -102,6 +103,11 @@ const AuthenticatedChefsChefIdRoute =
     path: '/chefs/$chefId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedChefMenuRoute = AuthenticatedChefMenuRouteImport.update({
+  id: '/menu',
+  path: '/menu',
+  getParentRoute: () => AuthenticatedChefRouteRoute,
+} as any)
 const AuthenticatedAdminZonesRoute = AuthenticatedAdminZonesRouteImport.update({
   id: '/zones',
   path: '/zones',
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
   '/admin/items': typeof AuthenticatedAdminItemsRoute
   '/admin/zones': typeof AuthenticatedAdminZonesRoute
+  '/chef/menu': typeof AuthenticatedChefMenuRoute
   '/chefs/$chefId': typeof AuthenticatedChefsChefIdRoute
   '/items/$chefItemId': typeof AuthenticatedItemsChefItemIdRoute
   '/orders/$orderId': typeof AuthenticatedOrdersOrderIdRoute
@@ -161,6 +168,7 @@ export interface FileRoutesByTo {
   '/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
   '/admin/items': typeof AuthenticatedAdminItemsRoute
   '/admin/zones': typeof AuthenticatedAdminZonesRoute
+  '/chef/menu': typeof AuthenticatedChefMenuRoute
   '/chefs/$chefId': typeof AuthenticatedChefsChefIdRoute
   '/items/$chefItemId': typeof AuthenticatedItemsChefItemIdRoute
   '/orders/$orderId': typeof AuthenticatedOrdersOrderIdRoute
@@ -183,6 +191,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
   '/_authenticated/admin/items': typeof AuthenticatedAdminItemsRoute
   '/_authenticated/admin/zones': typeof AuthenticatedAdminZonesRoute
+  '/_authenticated/chef/menu': typeof AuthenticatedChefMenuRoute
   '/_authenticated/chefs/$chefId': typeof AuthenticatedChefsChefIdRoute
   '/_authenticated/items/$chefItemId': typeof AuthenticatedItemsChefItemIdRoute
   '/_authenticated/orders/$orderId': typeof AuthenticatedOrdersOrderIdRoute
@@ -205,6 +214,7 @@ export interface FileRouteTypes {
     | '/admin/gateways'
     | '/admin/items'
     | '/admin/zones'
+    | '/chef/menu'
     | '/chefs/$chefId'
     | '/items/$chefItemId'
     | '/orders/$orderId'
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
     | '/admin/gateways'
     | '/admin/items'
     | '/admin/zones'
+    | '/chef/menu'
     | '/chefs/$chefId'
     | '/items/$chefItemId'
     | '/orders/$orderId'
@@ -244,6 +255,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/gateways'
     | '/_authenticated/admin/items'
     | '/_authenticated/admin/zones'
+    | '/_authenticated/chef/menu'
     | '/_authenticated/chefs/$chefId'
     | '/_authenticated/items/$chefItemId'
     | '/_authenticated/orders/$orderId'
@@ -358,6 +370,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChefsChefIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/chef/menu': {
+      id: '/_authenticated/chef/menu'
+      path: '/menu'
+      fullPath: '/chef/menu'
+      preLoaderRoute: typeof AuthenticatedChefMenuRouteImport
+      parentRoute: typeof AuthenticatedChefRouteRoute
+    }
     '/_authenticated/admin/zones': {
       id: '/_authenticated/admin/zones'
       path: '/zones'
@@ -421,11 +440,13 @@ const AuthenticatedAdminRouteRouteWithChildren =
   )
 
 interface AuthenticatedChefRouteRouteChildren {
+  AuthenticatedChefMenuRoute: typeof AuthenticatedChefMenuRoute
   AuthenticatedChefIndexRoute: typeof AuthenticatedChefIndexRoute
 }
 
 const AuthenticatedChefRouteRouteChildren: AuthenticatedChefRouteRouteChildren =
   {
+    AuthenticatedChefMenuRoute: AuthenticatedChefMenuRoute,
     AuthenticatedChefIndexRoute: AuthenticatedChefIndexRoute,
   }
 
