@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ChefHat, Clock, MapPin } from "lucide-react";
+import { ChefHat, Clock, MapPin, Star } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -41,6 +41,25 @@ function ChefPage() {
     },
   });
 
+  const reviews = useQuery({
+    queryKey: ["chef_reviews", chefId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("reviews")
+        .select("id, rating, comment, created_at, customer_id")
+        .eq("chef_id", chefId)
+        .order("created_at", { ascending: false })
+        .limit(20);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const avg =
+    reviews.data && reviews.data.length
+      ? reviews.data.reduce((s, r) => s + r.rating, 0) / reviews.data.length
+      : null;
+
   const chefName = (chef.data as any)?.profiles?.full_name ?? (chef.data as any)?.profiles?.username ?? "Home chef";
 
   return (
@@ -56,6 +75,13 @@ function ChefPage() {
               <h1 className="text-3xl font-bold tracking-tight">{chefName}</h1>
               {chef.data?.address && (
                 <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="h-3 w-3" /> {chef.data.address}</p>
+              )}
+              {avg !== null && (
+                <p className="mt-1 flex items-center gap-1 text-sm">
+                  <Star className="h-4 w-4 fill-primary text-primary" />
+                  <span className="font-semibold">{avg.toFixed(1)}</span>
+                  <span className="text-muted-foreground">({reviews.data!.length} reviews)</span>
+                </p>
               )}
             </div>
           </div>
@@ -83,6 +109,25 @@ function ChefPage() {
             );
           })}
         </div>
+
+        {(reviews.data?.length ?? 0) > 0 && (
+          <>
+            <h2 className="mt-10 text-xl font-semibold">Reviews</h2>
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              {reviews.data!.map((r) => (
+                <div key={r.id} className="rounded-xl border border-border bg-card/60 p-4 backdrop-blur">
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star key={i} className={`h-4 w-4 ${i < r.rating ? "fill-primary text-primary" : "text-muted-foreground/40"}`} />
+                    ))}
+                    <span className="ml-2 text-xs text-muted-foreground">{new Date(r.created_at).toLocaleDateString()}</span>
+                  </div>
+                  {r.comment && <p className="mt-2 text-sm">{r.comment}</p>}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
