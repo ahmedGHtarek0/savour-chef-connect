@@ -35,10 +35,13 @@ import { Route as AuthenticatedChefPayoutsRouteImport } from './routes/_authenti
 import { Route as AuthenticatedChefOrdersRouteImport } from './routes/_authenticated/chef/orders'
 import { Route as AuthenticatedChefMenuRouteImport } from './routes/_authenticated/chef/menu'
 import { Route as AuthenticatedAdminZonesRouteImport } from './routes/_authenticated/admin/zones'
+import { Route as AuthenticatedAdminReceiptsRouteImport } from './routes/_authenticated/admin/receipts'
 import { Route as AuthenticatedAdminItemsRouteImport } from './routes/_authenticated/admin/items'
 import { Route as AuthenticatedAdminGatewaysRouteImport } from './routes/_authenticated/admin/gateways'
+import { Route as AuthenticatedAdminDriversRouteImport } from './routes/_authenticated/admin/drivers'
 import { Route as AuthenticatedAdminChefsRouteImport } from './routes/_authenticated/admin/chefs'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin/categories'
+import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin/analytics'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -182,6 +185,12 @@ const AuthenticatedAdminZonesRoute = AuthenticatedAdminZonesRouteImport.update({
   path: '/zones',
   getParentRoute: () => AuthenticatedAdminRouteRoute,
 } as any)
+const AuthenticatedAdminReceiptsRoute =
+  AuthenticatedAdminReceiptsRouteImport.update({
+    id: '/receipts',
+    path: '/receipts',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminItemsRoute = AuthenticatedAdminItemsRouteImport.update({
   id: '/items',
   path: '/items',
@@ -191,6 +200,12 @@ const AuthenticatedAdminGatewaysRoute =
   AuthenticatedAdminGatewaysRouteImport.update({
     id: '/gateways',
     path: '/gateways',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminDriversRoute =
+  AuthenticatedAdminDriversRouteImport.update({
+    id: '/drivers',
+    path: '/drivers',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
 const AuthenticatedAdminChefsRoute = AuthenticatedAdminChefsRouteImport.update({
@@ -204,6 +219,12 @@ const AuthenticatedAdminCategoriesRoute =
     path: '/categories',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedAdminAnalyticsRoute =
+  AuthenticatedAdminAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -215,10 +236,13 @@ export interface FileRoutesByFullPath {
   '/cart': typeof AuthenticatedCartRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/memberships': typeof AuthenticatedMembershipsRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/chefs': typeof AuthenticatedAdminChefsRoute
+  '/admin/drivers': typeof AuthenticatedAdminDriversRoute
   '/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
   '/admin/items': typeof AuthenticatedAdminItemsRoute
+  '/admin/receipts': typeof AuthenticatedAdminReceiptsRoute
   '/admin/zones': typeof AuthenticatedAdminZonesRoute
   '/chef/menu': typeof AuthenticatedChefMenuRoute
   '/chef/orders': typeof AuthenticatedChefOrdersRoute
@@ -243,10 +267,13 @@ export interface FileRoutesByTo {
   '/cart': typeof AuthenticatedCartRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/memberships': typeof AuthenticatedMembershipsRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/chefs': typeof AuthenticatedAdminChefsRoute
+  '/admin/drivers': typeof AuthenticatedAdminDriversRoute
   '/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
   '/admin/items': typeof AuthenticatedAdminItemsRoute
+  '/admin/receipts': typeof AuthenticatedAdminReceiptsRoute
   '/admin/zones': typeof AuthenticatedAdminZonesRoute
   '/chef/menu': typeof AuthenticatedChefMenuRoute
   '/chef/orders': typeof AuthenticatedChefOrdersRoute
@@ -276,10 +303,13 @@ export interface FileRoutesById {
   '/_authenticated/cart': typeof AuthenticatedCartRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/memberships': typeof AuthenticatedMembershipsRoute
+  '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/chefs': typeof AuthenticatedAdminChefsRoute
+  '/_authenticated/admin/drivers': typeof AuthenticatedAdminDriversRoute
   '/_authenticated/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
   '/_authenticated/admin/items': typeof AuthenticatedAdminItemsRoute
+  '/_authenticated/admin/receipts': typeof AuthenticatedAdminReceiptsRoute
   '/_authenticated/admin/zones': typeof AuthenticatedAdminZonesRoute
   '/_authenticated/chef/menu': typeof AuthenticatedChefMenuRoute
   '/_authenticated/chef/orders': typeof AuthenticatedChefOrdersRoute
@@ -309,10 +339,13 @@ export interface FileRouteTypes {
     | '/cart'
     | '/dashboard'
     | '/memberships'
+    | '/admin/analytics'
     | '/admin/categories'
     | '/admin/chefs'
+    | '/admin/drivers'
     | '/admin/gateways'
     | '/admin/items'
+    | '/admin/receipts'
     | '/admin/zones'
     | '/chef/menu'
     | '/chef/orders'
@@ -337,10 +370,13 @@ export interface FileRouteTypes {
     | '/cart'
     | '/dashboard'
     | '/memberships'
+    | '/admin/analytics'
     | '/admin/categories'
     | '/admin/chefs'
+    | '/admin/drivers'
     | '/admin/gateways'
     | '/admin/items'
+    | '/admin/receipts'
     | '/admin/zones'
     | '/chef/menu'
     | '/chef/orders'
@@ -369,10 +405,13 @@ export interface FileRouteTypes {
     | '/_authenticated/cart'
     | '/_authenticated/dashboard'
     | '/_authenticated/memberships'
+    | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/chefs'
+    | '/_authenticated/admin/drivers'
     | '/_authenticated/admin/gateways'
     | '/_authenticated/admin/items'
+    | '/_authenticated/admin/receipts'
     | '/_authenticated/admin/zones'
     | '/_authenticated/chef/menu'
     | '/_authenticated/chef/orders'
@@ -581,6 +620,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminZonesRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/receipts': {
+      id: '/_authenticated/admin/receipts'
+      path: '/receipts'
+      fullPath: '/admin/receipts'
+      preLoaderRoute: typeof AuthenticatedAdminReceiptsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/items': {
       id: '/_authenticated/admin/items'
       path: '/items'
@@ -593,6 +639,13 @@ declare module '@tanstack/react-router' {
       path: '/gateways'
       fullPath: '/admin/gateways'
       preLoaderRoute: typeof AuthenticatedAdminGatewaysRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/drivers': {
+      id: '/_authenticated/admin/drivers'
+      path: '/drivers'
+      fullPath: '/admin/drivers'
+      preLoaderRoute: typeof AuthenticatedAdminDriversRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
     '/_authenticated/admin/chefs': {
@@ -609,24 +662,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminCategoriesRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/analytics': {
+      id: '/_authenticated/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
   AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
   AuthenticatedAdminChefsRoute: typeof AuthenticatedAdminChefsRoute
+  AuthenticatedAdminDriversRoute: typeof AuthenticatedAdminDriversRoute
   AuthenticatedAdminGatewaysRoute: typeof AuthenticatedAdminGatewaysRoute
   AuthenticatedAdminItemsRoute: typeof AuthenticatedAdminItemsRoute
+  AuthenticatedAdminReceiptsRoute: typeof AuthenticatedAdminReceiptsRoute
   AuthenticatedAdminZonesRoute: typeof AuthenticatedAdminZonesRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
+    AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
     AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
     AuthenticatedAdminChefsRoute: AuthenticatedAdminChefsRoute,
+    AuthenticatedAdminDriversRoute: AuthenticatedAdminDriversRoute,
     AuthenticatedAdminGatewaysRoute: AuthenticatedAdminGatewaysRoute,
     AuthenticatedAdminItemsRoute: AuthenticatedAdminItemsRoute,
+    AuthenticatedAdminReceiptsRoute: AuthenticatedAdminReceiptsRoute,
     AuthenticatedAdminZonesRoute: AuthenticatedAdminZonesRoute,
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   }
