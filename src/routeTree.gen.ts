@@ -16,6 +16,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedBrowseRouteImport } from './routes/_authenticated/browse'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedItemsChefItemIdRouteImport } from './routes/_authenticated/items.$chefItemId'
 import { Route as AuthenticatedChefsChefIdRouteImport } from './routes/_authenticated/chefs.$chefId'
 import { Route as AuthenticatedAdminZonesRouteImport } from './routes/_authenticated/admin/zones'
 import { Route as AuthenticatedAdminItemsRouteImport } from './routes/_authenticated/admin/items'
@@ -57,6 +58,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRouteRoute,
 } as any)
+const AuthenticatedItemsChefItemIdRoute =
+  AuthenticatedItemsChefItemIdRouteImport.update({
+    id: '/items/$chefItemId',
+    path: '/items/$chefItemId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedChefsChefIdRoute =
   AuthenticatedChefsChefIdRouteImport.update({
     id: '/chefs/$chefId',
@@ -103,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/admin/items': typeof AuthenticatedAdminItemsRoute
   '/admin/zones': typeof AuthenticatedAdminZonesRoute
   '/chefs/$chefId': typeof AuthenticatedChefsChefIdRoute
+  '/items/$chefItemId': typeof AuthenticatedItemsChefItemIdRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -116,6 +124,7 @@ export interface FileRoutesByTo {
   '/admin/items': typeof AuthenticatedAdminItemsRoute
   '/admin/zones': typeof AuthenticatedAdminZonesRoute
   '/chefs/$chefId': typeof AuthenticatedChefsChefIdRoute
+  '/items/$chefItemId': typeof AuthenticatedItemsChefItemIdRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -132,6 +141,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/items': typeof AuthenticatedAdminItemsRoute
   '/_authenticated/admin/zones': typeof AuthenticatedAdminZonesRoute
   '/_authenticated/chefs/$chefId': typeof AuthenticatedChefsChefIdRoute
+  '/_authenticated/items/$chefItemId': typeof AuthenticatedItemsChefItemIdRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/admin/items'
     | '/admin/zones'
     | '/chefs/$chefId'
+    | '/items/$chefItemId'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/admin/items'
     | '/admin/zones'
     | '/chefs/$chefId'
+    | '/items/$chefItemId'
     | '/admin'
   id:
     | '__root__'
@@ -176,6 +188,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/items'
     | '/_authenticated/admin/zones'
     | '/_authenticated/chefs/$chefId'
+    | '/_authenticated/items/$chefItemId'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -235,6 +248,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/items/$chefItemId': {
+      id: '/_authenticated/items/$chefItemId'
+      path: '/items/$chefItemId'
+      fullPath: '/items/$chefItemId'
+      preLoaderRoute: typeof AuthenticatedItemsChefItemIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/chefs/$chefId': {
       id: '/_authenticated/chefs/$chefId'
@@ -310,6 +330,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBrowseRoute: typeof AuthenticatedBrowseRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedChefsChefIdRoute: typeof AuthenticatedChefsChefIdRoute
+  AuthenticatedItemsChefItemIdRoute: typeof AuthenticatedItemsChefItemIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -317,6 +338,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBrowseRoute: AuthenticatedBrowseRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedChefsChefIdRoute: AuthenticatedChefsChefIdRoute,
+  AuthenticatedItemsChefItemIdRoute: AuthenticatedItemsChefItemIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
