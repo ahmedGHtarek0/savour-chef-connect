@@ -36,14 +36,12 @@ export function NotificationsBell() {
   useEffect(() => {
     if (!user) return;
     load();
-    const ch = supabase
-      .channel(`notif-${user.id}`)
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "notifications", filter: `user_id=eq.${user.id}` },
-        () => load()
-      )
-      .subscribe();
+    const ch = supabase.channel(`notif-${user.id}-${Math.random().toString(36).slice(2)}`);
+    ch.on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "notifications", filter: `user_id=eq.${user.id}` },
+      () => load()
+    ).subscribe();
     return () => {
       supabase.removeChannel(ch);
     };
