@@ -4,10 +4,10 @@ import { ChefHat, ListOrdered, BookOpen, Wallet, Settings } from "lucide-react";
 
 const NAV = [
   { to: "/chef", label: "Overview", icon: ChefHat, exact: true },
-  { to: "/chef/menu", label: "Menu", icon: BookOpen },
-  { to: "/chef/orders", label: "Orders", icon: ListOrdered },
-  { to: "/chef/payouts", label: "Payouts", icon: Wallet },
-  { to: "/chef/profile", label: "Profile", icon: Settings },
+  { to: "/chef/menu", label: "Menu", icon: BookOpen, exact: false },
+  { to: "/chef/orders", label: "Orders", icon: ListOrdered, exact: false },
+  { to: "/chef/payouts", label: "Payouts", icon: Wallet, exact: false },
+  { to: "/chef/profile", label: "Profile", icon: Settings, exact: false },
 ] as const;
 
 export function ChefShell() {
