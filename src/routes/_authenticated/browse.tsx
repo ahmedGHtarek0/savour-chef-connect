@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/lib/cart";
 import { toast } from "sonner";
@@ -18,6 +19,8 @@ export const Route = createFileRoute("/_authenticated/browse")({
 function BrowsePage() {
   const [search, setSearch] = useState("");
   const [catId, setCatId] = useState<string | null>(null);
+  const [sort, setSort] = useState<"new" | "price_asc" | "price_desc" | "fastest">("new");
+  const [maxPrice, setMaxPrice] = useState<string>("");
   const { add, count } = useCart();
 
   const cats = useQuery({
@@ -49,13 +52,18 @@ function BrowsePage() {
   });
 
   const filtered = useMemo(() => {
-    const rows = feed.data ?? [];
-    return rows.filter((r: any) => {
+    const rows = (feed.data ?? []).filter((r: any) => {
       if (catId && r.items?.category_id !== catId) return false;
       if (search && !`${r.items?.name ?? ""}`.toLowerCase().includes(search.toLowerCase())) return false;
+      if (maxPrice && Number(r.price) > Number(maxPrice)) return false;
       return true;
     });
-  }, [feed.data, catId, search]);
+    const sorted = [...rows];
+    if (sort === "price_asc") sorted.sort((a: any, b: any) => Number(a.price) - Number(b.price));
+    else if (sort === "price_desc") sorted.sort((a: any, b: any) => Number(b.price) - Number(a.price));
+    else if (sort === "fastest") sorted.sort((a: any, b: any) => a.lead_time_hours - b.lead_time_hours);
+    return sorted;
+  }, [feed.data, catId, search, sort, maxPrice]);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--gradient-hero)" }}>
@@ -68,6 +76,16 @@ function BrowsePage() {
           </div>
           <div className="flex items-center gap-2">
             <Input placeholder="Search dishes…" value={search} onChange={(e) => setSearch(e.target.value)} className="w-64" />
+            <Input placeholder="Max $" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value.replace(/[^0-9.]/g, ""))} className="w-24" />
+            <Select value={sort} onValueChange={(v) => setSort(v as typeof sort)}>
+              <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="new">Newest</SelectItem>
+                <SelectItem value="price_asc">Price: low to high</SelectItem>
+                <SelectItem value="price_desc">Price: high to low</SelectItem>
+                <SelectItem value="fastest">Fastest prep</SelectItem>
+              </SelectContent>
+            </Select>
             <Button asChild variant="outline"><Link to="/cart"><ShoppingBag className="mr-2 h-4 w-4" />Cart ({count})</Link></Button>
           </div>
         </div>
