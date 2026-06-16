@@ -25,7 +25,7 @@ export const claimAdminIfUnclaimed = createServerFn({ method: "POST" })
 
 export const verifyChef = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { chefId: string; status: "verified" | "rejected" }) => d)
+  .inputValidator((d: { chefId: string; status: "approved" | "rejected" }) => d)
   .handler(async ({ data, context }) => {
     const { data: isAdmin } = await context.supabase.rpc("has_role", {
       _user_id: context.userId,
