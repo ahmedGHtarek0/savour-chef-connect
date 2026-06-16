@@ -48,5 +48,16 @@
     "cancel": "Annulla",
     "continue": "Continua",
     "welcome": "Benvenuto"
+  },
+  "more": {
+    "memberships": "Iscrizioni",
+    "groups": "Gruppi",
+    "notifications": "Notifiche",
+    "subscribe": "Iscriviti",
+    "active": "Attivo",
+    "create": "Crea",
+    "join": "Unisciti",
+    "cart": "Carrello",
+    "orders": "Ordini"
   }
 }

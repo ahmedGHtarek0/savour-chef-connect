@@ -48,5 +48,16 @@
     "cancel": "取消",
     "continue": "继续",
     "welcome": "欢迎"
+  },
+  "more": {
+    "memberships": "会员",
+    "groups": "团购",
+    "notifications": "通知",
+    "subscribe": "订阅",
+    "active": "已激活",
+    "create": "创建",
+    "join": "加入",
+    "cart": "购物车",
+    "orders": "订单"
   }
 }

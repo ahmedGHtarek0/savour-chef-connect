@@ -48,5 +48,16 @@
     "cancel": "İptal",
     "continue": "Devam",
     "welcome": "Hoş geldin"
+  },
+  "more": {
+    "memberships": "Üyelikler",
+    "groups": "Gruplar",
+    "notifications": "Bildirimler",
+    "subscribe": "Abone ol",
+    "active": "Aktif",
+    "create": "Oluştur",
+    "join": "Katıl",
+    "cart": "Sepet",
+    "orders": "Siparişler"
   }
 }

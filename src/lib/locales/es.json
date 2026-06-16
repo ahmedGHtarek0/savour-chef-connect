@@ -48,5 +48,16 @@
     "cancel": "Cancelar",
     "continue": "Continuar",
     "welcome": "Bienvenido"
+  },
+  "more": {
+    "memberships": "Membresías",
+    "groups": "Grupos",
+    "notifications": "Notificaciones",
+    "subscribe": "Suscribirse",
+    "active": "Activo",
+    "create": "Crear",
+    "join": "Unirse",
+    "cart": "Carrito",
+    "orders": "Pedidos"
   }
 }
