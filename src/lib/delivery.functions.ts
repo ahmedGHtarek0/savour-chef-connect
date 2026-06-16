@@ -25,10 +25,12 @@ export const advanceDelivery = createServerFn({ method: "POST" })
   .inputValidator((d: { deliveryId: string; status: DeliveryStatus }) => d)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
-    const patch: Record<string, unknown> = { status: data.status };
-    if (data.status === "picked_up") patch.picked_at = new Date().toISOString();
-    if (data.status === "delivered") patch.delivered_at = new Date().toISOString();
-
+    const now = new Date().toISOString();
+    const patch = {
+      status: data.status,
+      ...(data.status === "picked_up" ? { picked_at: now } : {}),
+      ...(data.status === "delivered" ? { delivered_at: now } : {}),
+    };
     const { data: del, error } = await supabase
       .from("deliveries")
       .update(patch)
