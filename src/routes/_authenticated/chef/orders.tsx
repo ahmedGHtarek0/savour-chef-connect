@@ -70,7 +70,7 @@ function ChefOrders() {
       <section className="space-y-3">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Open ({open.length})</h2>
         {open.map((o: any) => {
-          const next = FLOW.find((f) => f.from.includes(o.status));
+          const next = FLOW.find((f) => (f.from as readonly string[]).includes(o.status));
           return (
             <Card key={o.id} className="p-4">
               <div className="flex flex-wrap items-start justify-between gap-3">
