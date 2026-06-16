@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedMembershipsRouteImport } from './routes/_authenticated/memberships'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCartRouteImport } from './routes/_authenticated/cart'
 import { Route as AuthenticatedBrowseRouteImport } from './routes/_authenticated/browse'
@@ -52,6 +53,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedMembershipsRoute =
+  AuthenticatedMembershipsRouteImport.update({
+    id: '/memberships',
+    path: '/memberships',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -200,6 +207,7 @@ export interface FileRoutesByFullPath {
   '/browse': typeof AuthenticatedBrowseRoute
   '/cart': typeof AuthenticatedCartRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/memberships': typeof AuthenticatedMembershipsRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/chefs': typeof AuthenticatedAdminChefsRoute
   '/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
@@ -226,6 +234,7 @@ export interface FileRoutesByTo {
   '/browse': typeof AuthenticatedBrowseRoute
   '/cart': typeof AuthenticatedCartRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/memberships': typeof AuthenticatedMembershipsRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/chefs': typeof AuthenticatedAdminChefsRoute
   '/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
@@ -257,6 +266,7 @@ export interface FileRoutesById {
   '/_authenticated/browse': typeof AuthenticatedBrowseRoute
   '/_authenticated/cart': typeof AuthenticatedCartRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/memberships': typeof AuthenticatedMembershipsRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/chefs': typeof AuthenticatedAdminChefsRoute
   '/_authenticated/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
@@ -288,6 +298,7 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/dashboard'
+    | '/memberships'
     | '/admin/categories'
     | '/admin/chefs'
     | '/admin/gateways'
@@ -314,6 +325,7 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/dashboard'
+    | '/memberships'
     | '/admin/categories'
     | '/admin/chefs'
     | '/admin/gateways'
@@ -344,6 +356,7 @@ export interface FileRouteTypes {
     | '/_authenticated/browse'
     | '/_authenticated/cart'
     | '/_authenticated/dashboard'
+    | '/_authenticated/memberships'
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/chefs'
     | '/_authenticated/admin/gateways'
@@ -393,6 +406,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/memberships': {
+      id: '/_authenticated/memberships'
+      path: '/memberships'
+      fullPath: '/memberships'
+      preLoaderRoute: typeof AuthenticatedMembershipsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
@@ -645,6 +665,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBrowseRoute: typeof AuthenticatedBrowseRoute
   AuthenticatedCartRoute: typeof AuthenticatedCartRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedMembershipsRoute: typeof AuthenticatedMembershipsRoute
   AuthenticatedChefsChefIdRoute: typeof AuthenticatedChefsChefIdRoute
   AuthenticatedItemsChefItemIdRoute: typeof AuthenticatedItemsChefItemIdRoute
   AuthenticatedOrdersOrderIdRoute: typeof AuthenticatedOrdersOrderIdRoute
@@ -658,6 +679,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBrowseRoute: AuthenticatedBrowseRoute,
   AuthenticatedCartRoute: AuthenticatedCartRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedMembershipsRoute: AuthenticatedMembershipsRoute,
   AuthenticatedChefsChefIdRoute: AuthenticatedChefsChefIdRoute,
   AuthenticatedItemsChefItemIdRoute: AuthenticatedItemsChefItemIdRoute,
   AuthenticatedOrdersOrderIdRoute: AuthenticatedOrdersOrderIdRoute,
