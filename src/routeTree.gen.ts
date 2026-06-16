@@ -15,6 +15,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCartRouteImport } from './routes/_authenticated/cart'
 import { Route as AuthenticatedBrowseRouteImport } from './routes/_authenticated/browse'
+import { Route as AuthenticatedChefRouteRouteImport } from './routes/_authenticated/chef/route'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedOrdersIndexRouteImport } from './routes/_authenticated/orders.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
@@ -54,6 +55,11 @@ const AuthenticatedCartRoute = AuthenticatedCartRouteImport.update({
 const AuthenticatedBrowseRoute = AuthenticatedBrowseRouteImport.update({
   id: '/browse',
   path: '/browse',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedChefRouteRoute = AuthenticatedChefRouteRouteImport.update({
+  id: '/chef',
+  path: '/chef',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAdminRouteRoute = AuthenticatedAdminRouteRouteImport.update({
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
+  '/chef': typeof AuthenticatedChefRouteRoute
   '/browse': typeof AuthenticatedBrowseRoute
   '/cart': typeof AuthenticatedCartRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/chef': typeof AuthenticatedChefRouteRoute
   '/browse': typeof AuthenticatedBrowseRoute
   '/cart': typeof AuthenticatedCartRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -159,6 +167,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
+  '/_authenticated/chef': typeof AuthenticatedChefRouteRoute
   '/_authenticated/browse': typeof AuthenticatedBrowseRoute
   '/_authenticated/cart': typeof AuthenticatedCartRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/admin'
+    | '/chef'
     | '/browse'
     | '/cart'
     | '/dashboard'
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/chef'
     | '/browse'
     | '/cart'
     | '/dashboard'
@@ -215,6 +226,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/admin'
+    | '/_authenticated/chef'
     | '/_authenticated/browse'
     | '/_authenticated/cart'
     | '/_authenticated/dashboard'
@@ -278,6 +290,13 @@ declare module '@tanstack/react-router' {
       path: '/browse'
       fullPath: '/browse'
       preLoaderRoute: typeof AuthenticatedBrowseRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/chef': {
+      id: '/_authenticated/chef'
+      path: '/chef'
+      fullPath: '/chef'
+      preLoaderRoute: typeof AuthenticatedChefRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin': {
@@ -386,6 +405,7 @@ const AuthenticatedAdminRouteRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
+  AuthenticatedChefRouteRoute: typeof AuthenticatedChefRouteRoute
   AuthenticatedBrowseRoute: typeof AuthenticatedBrowseRoute
   AuthenticatedCartRoute: typeof AuthenticatedCartRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
@@ -397,6 +417,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
+  AuthenticatedChefRouteRoute: AuthenticatedChefRouteRoute,
   AuthenticatedBrowseRoute: AuthenticatedBrowseRoute,
   AuthenticatedCartRoute: AuthenticatedCartRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
