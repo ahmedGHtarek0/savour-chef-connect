@@ -20,6 +20,7 @@ import { Route as AuthenticatedDeliveryRouteRouteImport } from './routes/_authen
 import { Route as AuthenticatedChefRouteRouteImport } from './routes/_authenticated/chef/route'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedOrdersIndexRouteImport } from './routes/_authenticated/orders.index'
+import { Route as AuthenticatedGroupsIndexRouteImport } from './routes/_authenticated/groups.index'
 import { Route as AuthenticatedDeliveryIndexRouteImport } from './routes/_authenticated/delivery/index'
 import { Route as AuthenticatedChefIndexRouteImport } from './routes/_authenticated/chef/index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
@@ -94,6 +95,12 @@ const AuthenticatedOrdersIndexRoute =
   AuthenticatedOrdersIndexRouteImport.update({
     id: '/orders/',
     path: '/orders/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedGroupsIndexRoute =
+  AuthenticatedGroupsIndexRouteImport.update({
+    id: '/groups/',
+    path: '/groups/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedDeliveryIndexRoute =
@@ -226,6 +233,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/chef/': typeof AuthenticatedChefIndexRoute
   '/delivery/': typeof AuthenticatedDeliveryIndexRoute
+  '/groups/': typeof AuthenticatedGroupsIndexRoute
   '/orders/': typeof AuthenticatedOrdersIndexRoute
 }
 export interface FileRoutesByTo {
@@ -253,6 +261,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/chef': typeof AuthenticatedChefIndexRoute
   '/delivery': typeof AuthenticatedDeliveryIndexRoute
+  '/groups': typeof AuthenticatedGroupsIndexRoute
   '/orders': typeof AuthenticatedOrdersIndexRoute
 }
 export interface FileRoutesById {
@@ -285,6 +294,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/chef/': typeof AuthenticatedChefIndexRoute
   '/_authenticated/delivery/': typeof AuthenticatedDeliveryIndexRoute
+  '/_authenticated/groups/': typeof AuthenticatedGroupsIndexRoute
   '/_authenticated/orders/': typeof AuthenticatedOrdersIndexRoute
 }
 export interface FileRouteTypes {
@@ -317,6 +327,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/chef/'
     | '/delivery/'
+    | '/groups/'
     | '/orders/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -344,6 +355,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/chef'
     | '/delivery'
+    | '/groups'
     | '/orders'
   id:
     | '__root__'
@@ -375,6 +387,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/'
     | '/_authenticated/chef/'
     | '/_authenticated/delivery/'
+    | '/_authenticated/groups/'
     | '/_authenticated/orders/'
   fileRoutesById: FileRoutesById
 }
@@ -461,6 +474,13 @@ declare module '@tanstack/react-router' {
       path: '/orders'
       fullPath: '/orders/'
       preLoaderRoute: typeof AuthenticatedOrdersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/groups/': {
+      id: '/_authenticated/groups/'
+      path: '/groups'
+      fullPath: '/groups/'
+      preLoaderRoute: typeof AuthenticatedGroupsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/delivery/': {
@@ -669,6 +689,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedChefsChefIdRoute: typeof AuthenticatedChefsChefIdRoute
   AuthenticatedItemsChefItemIdRoute: typeof AuthenticatedItemsChefItemIdRoute
   AuthenticatedOrdersOrderIdRoute: typeof AuthenticatedOrdersOrderIdRoute
+  AuthenticatedGroupsIndexRoute: typeof AuthenticatedGroupsIndexRoute
   AuthenticatedOrdersIndexRoute: typeof AuthenticatedOrdersIndexRoute
 }
 
@@ -683,6 +704,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedChefsChefIdRoute: AuthenticatedChefsChefIdRoute,
   AuthenticatedItemsChefItemIdRoute: AuthenticatedItemsChefItemIdRoute,
   AuthenticatedOrdersOrderIdRoute: AuthenticatedOrdersOrderIdRoute,
+  AuthenticatedGroupsIndexRoute: AuthenticatedGroupsIndexRoute,
   AuthenticatedOrdersIndexRoute: AuthenticatedOrdersIndexRoute,
 }
 
