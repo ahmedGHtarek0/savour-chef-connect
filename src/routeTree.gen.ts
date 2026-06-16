@@ -37,6 +37,7 @@ import { Route as AuthenticatedChefMenuRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAdminZonesRouteImport } from './routes/_authenticated/admin/zones'
 import { Route as AuthenticatedAdminItemsRouteImport } from './routes/_authenticated/admin/items'
 import { Route as AuthenticatedAdminGatewaysRouteImport } from './routes/_authenticated/admin/gateways'
+import { Route as AuthenticatedAdminDriversRouteImport } from './routes/_authenticated/admin/drivers'
 import { Route as AuthenticatedAdminChefsRouteImport } from './routes/_authenticated/admin/chefs'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin/categories'
 
@@ -193,6 +194,12 @@ const AuthenticatedAdminGatewaysRoute =
     path: '/gateways',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedAdminDriversRoute =
+  AuthenticatedAdminDriversRouteImport.update({
+    id: '/drivers',
+    path: '/drivers',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminChefsRoute = AuthenticatedAdminChefsRouteImport.update({
   id: '/chefs',
   path: '/chefs',
@@ -217,6 +224,7 @@ export interface FileRoutesByFullPath {
   '/memberships': typeof AuthenticatedMembershipsRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/chefs': typeof AuthenticatedAdminChefsRoute
+  '/admin/drivers': typeof AuthenticatedAdminDriversRoute
   '/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
   '/admin/items': typeof AuthenticatedAdminItemsRoute
   '/admin/zones': typeof AuthenticatedAdminZonesRoute
@@ -245,6 +253,7 @@ export interface FileRoutesByTo {
   '/memberships': typeof AuthenticatedMembershipsRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/chefs': typeof AuthenticatedAdminChefsRoute
+  '/admin/drivers': typeof AuthenticatedAdminDriversRoute
   '/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
   '/admin/items': typeof AuthenticatedAdminItemsRoute
   '/admin/zones': typeof AuthenticatedAdminZonesRoute
@@ -278,6 +287,7 @@ export interface FileRoutesById {
   '/_authenticated/memberships': typeof AuthenticatedMembershipsRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/chefs': typeof AuthenticatedAdminChefsRoute
+  '/_authenticated/admin/drivers': typeof AuthenticatedAdminDriversRoute
   '/_authenticated/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
   '/_authenticated/admin/items': typeof AuthenticatedAdminItemsRoute
   '/_authenticated/admin/zones': typeof AuthenticatedAdminZonesRoute
@@ -311,6 +321,7 @@ export interface FileRouteTypes {
     | '/memberships'
     | '/admin/categories'
     | '/admin/chefs'
+    | '/admin/drivers'
     | '/admin/gateways'
     | '/admin/items'
     | '/admin/zones'
@@ -339,6 +350,7 @@ export interface FileRouteTypes {
     | '/memberships'
     | '/admin/categories'
     | '/admin/chefs'
+    | '/admin/drivers'
     | '/admin/gateways'
     | '/admin/items'
     | '/admin/zones'
@@ -371,6 +383,7 @@ export interface FileRouteTypes {
     | '/_authenticated/memberships'
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/chefs'
+    | '/_authenticated/admin/drivers'
     | '/_authenticated/admin/gateways'
     | '/_authenticated/admin/items'
     | '/_authenticated/admin/zones'
@@ -595,6 +608,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminGatewaysRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/drivers': {
+      id: '/_authenticated/admin/drivers'
+      path: '/drivers'
+      fullPath: '/admin/drivers'
+      preLoaderRoute: typeof AuthenticatedAdminDriversRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/chefs': {
       id: '/_authenticated/admin/chefs'
       path: '/chefs'
@@ -615,6 +635,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedAdminRouteRouteChildren {
   AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
   AuthenticatedAdminChefsRoute: typeof AuthenticatedAdminChefsRoute
+  AuthenticatedAdminDriversRoute: typeof AuthenticatedAdminDriversRoute
   AuthenticatedAdminGatewaysRoute: typeof AuthenticatedAdminGatewaysRoute
   AuthenticatedAdminItemsRoute: typeof AuthenticatedAdminItemsRoute
   AuthenticatedAdminZonesRoute: typeof AuthenticatedAdminZonesRoute
@@ -625,6 +646,7 @@ const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren
   {
     AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
     AuthenticatedAdminChefsRoute: AuthenticatedAdminChefsRoute,
+    AuthenticatedAdminDriversRoute: AuthenticatedAdminDriversRoute,
     AuthenticatedAdminGatewaysRoute: AuthenticatedAdminGatewaysRoute,
     AuthenticatedAdminItemsRoute: AuthenticatedAdminItemsRoute,
     AuthenticatedAdminZonesRoute: AuthenticatedAdminZonesRoute,
