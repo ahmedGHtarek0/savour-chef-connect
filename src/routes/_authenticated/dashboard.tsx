@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { ChefHat, ShoppingBag, Bike, Shield } from "lucide-react";
+import { ChefHat, ShoppingBag, Bike, Shield, Sparkles, Users } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
@@ -53,6 +53,26 @@ function Dashboard() {
               </motion.div>
             );
           })}
+        </div>
+
+        <div className="mt-10">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">More</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Link to="/memberships" className="flex items-center gap-3 rounded-xl border border-border bg-card/60 p-4 backdrop-blur transition hover:bg-card">
+              <Sparkles className="h-5 w-5 text-primary" />
+              <div>
+                <p className="font-medium">Memberships</p>
+                <p className="text-xs text-muted-foreground">Unlock free delivery & perks</p>
+              </div>
+            </Link>
+            <Link to="/groups" className="flex items-center gap-3 rounded-xl border border-border bg-card/60 p-4 backdrop-blur transition hover:bg-card">
+              <Users className="h-5 w-5 text-primary" />
+              <div>
+                <p className="font-medium">Group orders</p>
+                <p className="text-xs text-muted-foreground">Order together with friends</p>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
