@@ -52,6 +52,16 @@ function AuthPage() {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    // Pre-check username uniqueness (email uniqueness is enforced by Supabase auth)
+    const { data: existing } = await supabase
+      .from("profiles")
+      .select("id")
+      .eq("username", username)
+      .maybeSingle();
+    if (existing) {
+      setLoading(false);
+      return toast.error("Username already taken — pick another");
+    }
     const { error } = await supabase.auth.signUp({
       email, password,
       options: {
@@ -61,8 +71,11 @@ function AuthPage() {
     });
     setLoading(false);
     if (error) return toast.error(error.message);
-    toast.success("Account created — check your email to confirm.");
-    setMode("signin");
+    toast.success("Account created — signing you in…");
+    // Auto sign in (email confirmation is disabled)
+    const { error: signErr } = await supabase.auth.signInWithPassword({ email, password });
+    if (signErr) { setMode("signin"); return toast.error(signErr.message); }
+    navigate({ to: "/dashboard" });
   };
 
   const handleGoogle = async () => {
