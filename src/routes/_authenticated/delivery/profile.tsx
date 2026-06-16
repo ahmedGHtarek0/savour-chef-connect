@@ -17,13 +17,14 @@ export const Route = createFileRoute("/_authenticated/delivery/profile")({
   component: DeliveryProfile,
 });
 
-const DOCS = [
+type DocKey = "id_front_url" | "id_back_url" | "driving_license_url" | "vehicle_license_url" | "vehicle_photo_url";
+const DOCS: { key: DocKey; label: string }[] = [
   { key: "id_front_url", label: "National ID — front" },
   { key: "id_back_url", label: "National ID — back" },
   { key: "driving_license_url", label: "Driving license" },
   { key: "vehicle_license_url", label: "Vehicle license" },
   { key: "vehicle_photo_url", label: "Vehicle photo" },
-] as const;
+];
 
 function DeliveryProfile() {
   const { user } = useAuth();
@@ -91,7 +92,7 @@ function DeliveryProfile() {
   );
 }
 
-function DocUploader({ field, label, url, onChange }: { field: string; label: string; url: string | null; onChange: () => void }) {
+function DocUploader({ field, label, url, onChange }: { field: DocKey; label: string; url: string | null; onChange: () => void }) {
   const { user } = useAuth();
   const inputRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
@@ -104,7 +105,13 @@ function DocUploader({ field, label, url, onChange }: { field: string; label: st
       const path = `${user.id}/${field}-${Date.now()}.${ext}`;
       const { error: uErr } = await supabase.storage.from("delivery-docs").upload(path, file, { upsert: true });
       if (uErr) throw uErr;
-      const { error: dbErr } = await supabase.from("delivery_profiles").update({ [field]: path }).eq("user_id", user.id);
+      const patch =
+        field === "id_front_url" ? { id_front_url: path } :
+        field === "id_back_url" ? { id_back_url: path } :
+        field === "driving_license_url" ? { driving_license_url: path } :
+        field === "vehicle_license_url" ? { vehicle_license_url: path } :
+        { vehicle_photo_url: path };
+      const { error: dbErr } = await supabase.from("delivery_profiles").update(patch).eq("user_id", user.id);
       if (dbErr) throw dbErr;
       toast.success(`${label} uploaded`);
       onChange();
