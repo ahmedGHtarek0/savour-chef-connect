@@ -866,6 +866,47 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          chef_id: string
+          comment: string | null
+          created_at: string
+          customer_id: string
+          id: string
+          order_id: string
+          rating: number
+          updated_at: string
+        }
+        Insert: {
+          chef_id: string
+          comment?: string | null
+          created_at?: string
+          customer_id: string
+          id?: string
+          order_id: string
+          rating: number
+          updated_at?: string
+        }
+        Update: {
+          chef_id?: string
+          comment?: string | null
+          created_at?: string
+          customer_id?: string
+          id?: string
+          order_id?: string
+          rating?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: true
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscriptions: {
         Row: {
           active: boolean
@@ -960,7 +1001,27 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_chef_directory: {
+        Row: {
+          address: string | null
+          bio: string | null
+          chef_id: string | null
+          full_name: string | null
+          lat: number | null
+          lng: number | null
+          username: string | null
+          zone_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chef_profiles_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       current_user_roles: {

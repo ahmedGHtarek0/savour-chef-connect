@@ -11,6 +11,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { attachReceipt } from "@/lib/customer.functions";
 import { toast } from "sonner";
 import { CheckCircle2, ChefHat, Bike, PackageCheck, Clock, ShoppingBag } from "lucide-react";
+import { ReviewForm } from "@/components/ReviewForm";
 
 export const Route = createFileRoute("/_authenticated/orders/$orderId")({
   component: OrderDetail,
@@ -36,7 +37,7 @@ function OrderDetail() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("orders")
-        .select("*, order_items(*, items(name, photos)), customer_addresses(label, address), payment_gateways(name, account_number, instructions), payment_receipts(id, image_url, status)")
+        .select("*, order_items(*, items(name, photos)), customer_addresses(label, address), payment_gateways(name, account_number, instructions), payment_receipts(id, image_url, status), reviews(id, rating, comment)")
         .eq("id", orderId)
         .maybeSingle();
       if (error) throw error;
@@ -170,6 +171,29 @@ function OrderDetail() {
                 </div>
               )}
             </Card>
+
+            {o.status === "delivered" && (
+              <Card className="p-6">
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">Your review</h3>
+                {o.reviews?.length ? (
+                  <div>
+                    <div className="flex gap-1">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <CheckCircle2
+                          key={i}
+                          className={`h-5 w-5 ${i < o.reviews[0].rating ? "text-primary" : "text-muted-foreground/40"}`}
+                        />
+                      ))}
+                    </div>
+                    {o.reviews[0].comment && (
+                      <p className="mt-2 text-sm text-muted-foreground">{o.reviews[0].comment}</p>
+                    )}
+                  </div>
+                ) : (
+                  <ReviewForm orderId={o.id} onSubmitted={() => q.refetch()} />
+                )}
+              </Card>
+            )}
           </div>
         </div>
       </div>
