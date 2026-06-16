@@ -3,16 +3,18 @@ import { useTranslation } from "react-i18next";
 import { Logo3D } from "./Logo3D";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Globe, Palette, LogOut } from "lucide-react";
+import { Globe, Palette, LogOut, ShoppingBag } from "lucide-react";
 import { LANGUAGES } from "@/lib/i18n";
 import { THEMES, useTheme } from "./providers/ThemeProvider";
 import { useAuth } from "./providers/AuthProvider";
+import { useCart } from "@/lib/cart";
 import { supabase } from "@/integrations/supabase/client";
 
 export function Navbar() {
   const { t, i18n } = useTranslation();
   const { theme, setTheme } = useTheme();
   const { user } = useAuth();
+  const { count } = useCart();
   const navigate = useNavigate();
 
   const signOut = async () => {
@@ -59,6 +61,9 @@ export function Navbar() {
 
           {user ? (
             <>
+              <Button asChild variant="ghost" size="sm" className="relative">
+                <Link to="/cart"><ShoppingBag className="h-4 w-4" />{count > 0 && <span className="ml-1 text-xs">{count}</span>}</Link>
+              </Button>
               <Button asChild variant="ghost"><Link to="/dashboard">{t("nav.dashboard")}</Link></Button>
               <Button variant="outline" size="icon" onClick={signOut} aria-label="Sign out"><LogOut className="h-4 w-4" /></Button>
             </>
