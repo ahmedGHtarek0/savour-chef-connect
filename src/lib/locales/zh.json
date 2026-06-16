@@ -1,0 +1,52 @@
+{
+  "app": {
+    "name": "Savora",
+    "tagline": "家厨美食,用心送达"
+  },
+  "nav": {
+    "home": "首页",
+    "browse": "浏览",
+    "chefs": "厨师",
+    "login": "登录",
+    "signup": "开始",
+    "dashboard": "控制台",
+    "logout": "退出"
+  },
+  "hero": {
+    "title": "正宗家常菜,随叫随到",
+    "subtitle": "发现附近才华横溢的家庭厨师。下单、追踪、品味。",
+    "cta": "立即下单",
+    "cta2": "成为厨师"
+  },
+  "auth": {
+    "signin": "登录",
+    "signup": "注册",
+    "email": "邮箱",
+    "phone": "电话",
+    "username": "用户名",
+    "password": "密码",
+    "fullName": "全名",
+    "role": "我是...",
+    "customer": "顾客",
+    "chef": "家庭厨师",
+    "delivery": "配送员",
+    "or": "或",
+    "haveAccount": "已有账户?",
+    "noAccount": "没有账户?",
+    "withGoogle": "使用 Google 继续",
+    "withPhone": "使用手机继续"
+  },
+  "roles": {
+    "admin": "管理员",
+    "chef": "厨师",
+    "customer": "顾客",
+    "delivery": "配送"
+  },
+  "common": {
+    "loading": "加载中...",
+    "save": "保存",
+    "cancel": "取消",
+    "continue": "继续",
+    "welcome": "欢迎"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "app": {
+    "name": "Savora",
+    "tagline": "Cucina casalinga, consegnata con amore"
+  },
+  "nav": {
+    "home": "Home",
+    "browse": "Esplora",
+    "chefs": "Chef",
+    "login": "Accedi",
+    "signup": "Inizia",
+    "dashboard": "Dashboard",
+    "logout": "Esci"
+  },
+  "hero": {
+    "title": "Autentica cucina casalinga, su richiesta",
+    "subtitle": "Scopri chef talentuosi nel tuo quartiere. Ordina, traccia, gusta.",
+    "cta": "Ordina ora",
+    "cta2": "Diventa chef"
+  },
+  "auth": {
+    "signin": "Accedi",
+    "signup": "Crea account",
+    "email": "Email",
+    "phone": "Telefono",
+    "username": "Username",
+    "password": "Password",
+    "fullName": "Nome completo",
+    "role": "Sono un...",
+    "customer": "Cliente",
+    "chef": "Chef casalingo",
+    "delivery": "Corriere",
+    "or": "o",
+    "haveAccount": "Hai già un account?",
+    "noAccount": "Non hai un account?",
+    "withGoogle": "Continua con Google",
+    "withPhone": "Continua con telefono"
+  },
+  "roles": {
+    "admin": "Admin",
+    "chef": "Chef",
+    "customer": "Cliente",
+    "delivery": "Corriere"
+  },
+  "common": {
+    "loading": "Caricamento...",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "continue": "Continua",
+    "welcome": "Benvenuto"
+  }
+}
