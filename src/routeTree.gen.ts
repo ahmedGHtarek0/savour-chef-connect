@@ -13,6 +13,13 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminZonesRouteImport } from './routes/_authenticated/admin/zones'
+import { Route as AuthenticatedAdminItemsRouteImport } from './routes/_authenticated/admin/items'
+import { Route as AuthenticatedAdminGatewaysRouteImport } from './routes/_authenticated/admin/gateways'
+import { Route as AuthenticatedAdminChefsRouteImport } from './routes/_authenticated/admin/chefs'
+import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin/categories'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -33,35 +40,118 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminRouteRoute = AuthenticatedAdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const AuthenticatedAdminZonesRoute = AuthenticatedAdminZonesRouteImport.update({
+  id: '/zones',
+  path: '/zones',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const AuthenticatedAdminItemsRoute = AuthenticatedAdminItemsRouteImport.update({
+  id: '/items',
+  path: '/items',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const AuthenticatedAdminGatewaysRoute =
+  AuthenticatedAdminGatewaysRouteImport.update({
+    id: '/gateways',
+    path: '/gateways',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminChefsRoute = AuthenticatedAdminChefsRouteImport.update({
+  id: '/chefs',
+  path: '/chefs',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const AuthenticatedAdminCategoriesRoute =
+  AuthenticatedAdminCategoriesRouteImport.update({
+    id: '/categories',
+    path: '/categories',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/admin/chefs': typeof AuthenticatedAdminChefsRoute
+  '/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
+  '/admin/items': typeof AuthenticatedAdminItemsRoute
+  '/admin/zones': typeof AuthenticatedAdminZonesRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/admin/chefs': typeof AuthenticatedAdminChefsRoute
+  '/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
+  '/admin/items': typeof AuthenticatedAdminItemsRoute
+  '/admin/zones': typeof AuthenticatedAdminZonesRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/_authenticated/admin/chefs': typeof AuthenticatedAdminChefsRoute
+  '/_authenticated/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
+  '/_authenticated/admin/items': typeof AuthenticatedAdminItemsRoute
+  '/_authenticated/admin/zones': typeof AuthenticatedAdminZonesRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/admin'
+    | '/dashboard'
+    | '/admin/categories'
+    | '/admin/chefs'
+    | '/admin/gateways'
+    | '/admin/items'
+    | '/admin/zones'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/dashboard'
+  to:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/admin/categories'
+    | '/admin/chefs'
+    | '/admin/gateways'
+    | '/admin/items'
+    | '/admin/zones'
+    | '/admin'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/admin'
     | '/_authenticated/dashboard'
+    | '/_authenticated/admin/categories'
+    | '/_authenticated/admin/chefs'
+    | '/_authenticated/admin/gateways'
+    | '/_authenticated/admin/items'
+    | '/_authenticated/admin/zones'
+    | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -100,14 +190,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/zones': {
+      id: '/_authenticated/admin/zones'
+      path: '/zones'
+      fullPath: '/admin/zones'
+      preLoaderRoute: typeof AuthenticatedAdminZonesRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/items': {
+      id: '/_authenticated/admin/items'
+      path: '/items'
+      fullPath: '/admin/items'
+      preLoaderRoute: typeof AuthenticatedAdminItemsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/gateways': {
+      id: '/_authenticated/admin/gateways'
+      path: '/gateways'
+      fullPath: '/admin/gateways'
+      preLoaderRoute: typeof AuthenticatedAdminGatewaysRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/chefs': {
+      id: '/_authenticated/admin/chefs'
+      path: '/chefs'
+      fullPath: '/admin/chefs'
+      preLoaderRoute: typeof AuthenticatedAdminChefsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/categories': {
+      id: '/_authenticated/admin/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AuthenticatedAdminCategoriesRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
+  AuthenticatedAdminChefsRoute: typeof AuthenticatedAdminChefsRoute
+  AuthenticatedAdminGatewaysRoute: typeof AuthenticatedAdminGatewaysRoute
+  AuthenticatedAdminItemsRoute: typeof AuthenticatedAdminItemsRoute
+  AuthenticatedAdminZonesRoute: typeof AuthenticatedAdminZonesRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
+  {
+    AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
+    AuthenticatedAdminChefsRoute: AuthenticatedAdminChefsRoute,
+    AuthenticatedAdminGatewaysRoute: AuthenticatedAdminGatewaysRoute,
+    AuthenticatedAdminItemsRoute: AuthenticatedAdminItemsRoute,
+    AuthenticatedAdminZonesRoute: AuthenticatedAdminZonesRoute,
+    AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  }
+
+const AuthenticatedAdminRouteRouteWithChildren =
+  AuthenticatedAdminRouteRoute._addFileChildren(
+    AuthenticatedAdminRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
 }
 
