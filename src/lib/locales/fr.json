@@ -48,5 +48,16 @@
     "cancel": "Annuler",
     "continue": "Continuer",
     "welcome": "Bienvenue"
+  },
+  "more": {
+    "memberships": "Adhésions",
+    "groups": "Groupes",
+    "notifications": "Notifications",
+    "subscribe": "S'abonner",
+    "active": "Actif",
+    "create": "Créer",
+    "join": "Rejoindre",
+    "cart": "Panier",
+    "orders": "Commandes"
   }
 }

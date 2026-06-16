@@ -48,5 +48,16 @@
     "cancel": "إلغاء",
     "continue": "متابعة",
     "welcome": "مرحبًا"
+  },
+  "more": {
+    "memberships": "العضويات",
+    "groups": "المجموعات",
+    "notifications": "الإشعارات",
+    "subscribe": "اشترك",
+    "active": "مفعّل",
+    "create": "إنشاء",
+    "join": "انضمام",
+    "cart": "السلة",
+    "orders": "الطلبات"
   }
 }

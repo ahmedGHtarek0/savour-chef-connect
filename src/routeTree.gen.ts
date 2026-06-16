@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedMembershipsRouteImport } from './routes/_authenticated/memberships'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCartRouteImport } from './routes/_authenticated/cart'
 import { Route as AuthenticatedBrowseRouteImport } from './routes/_authenticated/browse'
@@ -19,6 +20,7 @@ import { Route as AuthenticatedDeliveryRouteRouteImport } from './routes/_authen
 import { Route as AuthenticatedChefRouteRouteImport } from './routes/_authenticated/chef/route'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedOrdersIndexRouteImport } from './routes/_authenticated/orders.index'
+import { Route as AuthenticatedGroupsIndexRouteImport } from './routes/_authenticated/groups.index'
 import { Route as AuthenticatedDeliveryIndexRouteImport } from './routes/_authenticated/delivery/index'
 import { Route as AuthenticatedChefIndexRouteImport } from './routes/_authenticated/chef/index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
@@ -52,6 +54,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedMembershipsRoute =
+  AuthenticatedMembershipsRouteImport.update({
+    id: '/memberships',
+    path: '/memberships',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -87,6 +95,12 @@ const AuthenticatedOrdersIndexRoute =
   AuthenticatedOrdersIndexRouteImport.update({
     id: '/orders/',
     path: '/orders/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedGroupsIndexRoute =
+  AuthenticatedGroupsIndexRouteImport.update({
+    id: '/groups/',
+    path: '/groups/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedDeliveryIndexRoute =
@@ -200,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/browse': typeof AuthenticatedBrowseRoute
   '/cart': typeof AuthenticatedCartRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/memberships': typeof AuthenticatedMembershipsRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/chefs': typeof AuthenticatedAdminChefsRoute
   '/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
@@ -218,6 +233,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/chef/': typeof AuthenticatedChefIndexRoute
   '/delivery/': typeof AuthenticatedDeliveryIndexRoute
+  '/groups/': typeof AuthenticatedGroupsIndexRoute
   '/orders/': typeof AuthenticatedOrdersIndexRoute
 }
 export interface FileRoutesByTo {
@@ -226,6 +242,7 @@ export interface FileRoutesByTo {
   '/browse': typeof AuthenticatedBrowseRoute
   '/cart': typeof AuthenticatedCartRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/memberships': typeof AuthenticatedMembershipsRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/chefs': typeof AuthenticatedAdminChefsRoute
   '/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
@@ -244,6 +261,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/chef': typeof AuthenticatedChefIndexRoute
   '/delivery': typeof AuthenticatedDeliveryIndexRoute
+  '/groups': typeof AuthenticatedGroupsIndexRoute
   '/orders': typeof AuthenticatedOrdersIndexRoute
 }
 export interface FileRoutesById {
@@ -257,6 +275,7 @@ export interface FileRoutesById {
   '/_authenticated/browse': typeof AuthenticatedBrowseRoute
   '/_authenticated/cart': typeof AuthenticatedCartRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/memberships': typeof AuthenticatedMembershipsRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/chefs': typeof AuthenticatedAdminChefsRoute
   '/_authenticated/admin/gateways': typeof AuthenticatedAdminGatewaysRoute
@@ -275,6 +294,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/chef/': typeof AuthenticatedChefIndexRoute
   '/_authenticated/delivery/': typeof AuthenticatedDeliveryIndexRoute
+  '/_authenticated/groups/': typeof AuthenticatedGroupsIndexRoute
   '/_authenticated/orders/': typeof AuthenticatedOrdersIndexRoute
 }
 export interface FileRouteTypes {
@@ -288,6 +308,7 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/dashboard'
+    | '/memberships'
     | '/admin/categories'
     | '/admin/chefs'
     | '/admin/gateways'
@@ -306,6 +327,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/chef/'
     | '/delivery/'
+    | '/groups/'
     | '/orders/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -314,6 +336,7 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/dashboard'
+    | '/memberships'
     | '/admin/categories'
     | '/admin/chefs'
     | '/admin/gateways'
@@ -332,6 +355,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/chef'
     | '/delivery'
+    | '/groups'
     | '/orders'
   id:
     | '__root__'
@@ -344,6 +368,7 @@ export interface FileRouteTypes {
     | '/_authenticated/browse'
     | '/_authenticated/cart'
     | '/_authenticated/dashboard'
+    | '/_authenticated/memberships'
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/chefs'
     | '/_authenticated/admin/gateways'
@@ -362,6 +387,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/'
     | '/_authenticated/chef/'
     | '/_authenticated/delivery/'
+    | '/_authenticated/groups/'
     | '/_authenticated/orders/'
   fileRoutesById: FileRoutesById
 }
@@ -393,6 +419,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/memberships': {
+      id: '/_authenticated/memberships'
+      path: '/memberships'
+      fullPath: '/memberships'
+      preLoaderRoute: typeof AuthenticatedMembershipsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
@@ -441,6 +474,13 @@ declare module '@tanstack/react-router' {
       path: '/orders'
       fullPath: '/orders/'
       preLoaderRoute: typeof AuthenticatedOrdersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/groups/': {
+      id: '/_authenticated/groups/'
+      path: '/groups'
+      fullPath: '/groups/'
+      preLoaderRoute: typeof AuthenticatedGroupsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/delivery/': {
@@ -645,9 +685,11 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBrowseRoute: typeof AuthenticatedBrowseRoute
   AuthenticatedCartRoute: typeof AuthenticatedCartRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedMembershipsRoute: typeof AuthenticatedMembershipsRoute
   AuthenticatedChefsChefIdRoute: typeof AuthenticatedChefsChefIdRoute
   AuthenticatedItemsChefItemIdRoute: typeof AuthenticatedItemsChefItemIdRoute
   AuthenticatedOrdersOrderIdRoute: typeof AuthenticatedOrdersOrderIdRoute
+  AuthenticatedGroupsIndexRoute: typeof AuthenticatedGroupsIndexRoute
   AuthenticatedOrdersIndexRoute: typeof AuthenticatedOrdersIndexRoute
 }
 
@@ -658,9 +700,11 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBrowseRoute: AuthenticatedBrowseRoute,
   AuthenticatedCartRoute: AuthenticatedCartRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedMembershipsRoute: AuthenticatedMembershipsRoute,
   AuthenticatedChefsChefIdRoute: AuthenticatedChefsChefIdRoute,
   AuthenticatedItemsChefItemIdRoute: AuthenticatedItemsChefItemIdRoute,
   AuthenticatedOrdersOrderIdRoute: AuthenticatedOrdersOrderIdRoute,
+  AuthenticatedGroupsIndexRoute: AuthenticatedGroupsIndexRoute,
   AuthenticatedOrdersIndexRoute: AuthenticatedOrdersIndexRoute,
 }
 

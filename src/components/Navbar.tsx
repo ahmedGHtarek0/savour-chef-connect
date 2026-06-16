@@ -9,6 +9,7 @@ import { THEMES, useTheme } from "./providers/ThemeProvider";
 import { useAuth } from "./providers/AuthProvider";
 import { useCart } from "@/lib/cart";
 import { supabase } from "@/integrations/supabase/client";
+import { NotificationsBell } from "./NotificationsBell";
 
 export function Navbar() {
   const { t, i18n } = useTranslation();
@@ -61,6 +62,7 @@ export function Navbar() {
 
           {user ? (
             <>
+              <NotificationsBell />
               <Button asChild variant="ghost" size="sm" className="relative">
                 <Link to="/cart"><ShoppingBag className="h-4 w-4" />{count > 0 && <span className="ml-1 text-xs">{count}</span>}</Link>
               </Button>
