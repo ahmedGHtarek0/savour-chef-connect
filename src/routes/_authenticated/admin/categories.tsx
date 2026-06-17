@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Trash2, Pencil } from "lucide-react";
-import { useState as useReactState } from "react";
 
 export const Route = createFileRoute("/_authenticated/admin/categories")({
   component: CategoriesPage,
