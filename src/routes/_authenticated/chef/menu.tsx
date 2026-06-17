@@ -82,7 +82,7 @@ function ChefMenu() {
   }
 
   async function updateRow(id: string, patch: Record<string, any>) {
-    const { error } = await supabase.from("chef_items").update(patch).eq("id", id);
+    const { error } = await supabase.from("chef_items").update(patch as any).eq("id", id);
     if (error) { toast.error(error.message); return; }
     toast.success("Updated");
     mine.refetch();
