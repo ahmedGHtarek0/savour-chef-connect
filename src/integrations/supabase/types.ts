@@ -99,6 +99,8 @@ export type Database = {
           id: string
           item_id: string
           lead_time_hours: number
+          max_qty: number | null
+          min_qty: number | null
           price: number
           unit_mode: string
           updated_at: string
@@ -110,6 +112,8 @@ export type Database = {
           id?: string
           item_id: string
           lead_time_hours?: number
+          max_qty?: number | null
+          min_qty?: number | null
           price: number
           unit_mode?: string
           updated_at?: string
@@ -121,6 +125,8 @@ export type Database = {
           id?: string
           item_id?: string
           lead_time_hours?: number
+          max_qty?: number | null
+          min_qty?: number | null
           price?: number
           unit_mode?: string
           updated_at?: string
