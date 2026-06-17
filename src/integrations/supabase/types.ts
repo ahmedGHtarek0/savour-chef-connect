@@ -153,7 +153,7 @@ export type Database = {
           id_front_url: string | null
           lat: number | null
           lng: number | null
-          max_orders_per_day: number | null
+          max_orders_per_day: number
           payment_account: string | null
           payment_method: string | null
           rejection_reason: string | null
@@ -176,7 +176,7 @@ export type Database = {
           id_front_url?: string | null
           lat?: number | null
           lng?: number | null
-          max_orders_per_day?: number | null
+          max_orders_per_day?: number
           payment_account?: string | null
           payment_method?: string | null
           rejection_reason?: string | null
@@ -199,7 +199,7 @@ export type Database = {
           id_front_url?: string | null
           lat?: number | null
           lng?: number | null
-          max_orders_per_day?: number | null
+          max_orders_per_day?: number
           payment_account?: string | null
           payment_method?: string | null
           rejection_reason?: string | null
