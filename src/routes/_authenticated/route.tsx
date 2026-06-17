@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/components/providers/AuthProvider";
+import { AppLoader } from "@/components/AppLoader";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -14,7 +15,7 @@ function AuthLayout() {
     if (!loading && !user) navigate({ to: "/auth", replace: true });
   }, [user, loading, navigate]);
   if (loading || !user) {
-    return <div className="flex min-h-screen items-center justify-center text-muted-foreground">Loading…</div>;
+    return <AppLoader label="Loading your dashboard…" />;
   }
   return <Outlet />;
 }

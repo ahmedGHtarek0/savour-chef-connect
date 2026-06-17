@@ -11,6 +11,7 @@ import { useAuth } from "./providers/AuthProvider";
 import { useCart } from "@/lib/cart";
 import { supabase } from "@/integrations/supabase/client";
 import { NotificationsBell } from "./NotificationsBell";
+import { useQuery } from "@tanstack/react-query";
 
 export function Navbar() {
   const { t, i18n } = useTranslation();
@@ -18,6 +19,16 @@ export function Navbar() {
   const { user } = useAuth();
   const { count } = useCart();
   const navigate = useNavigate();
+  const { data: roles = [] } = useQuery({
+    queryKey: ["my_roles", user?.id],
+    enabled: !!user,
+    queryFn: async () => {
+      const { data } = await supabase.from("user_roles").select("role").eq("user_id", user!.id);
+      return (data ?? []).map((r: any) => r.role as string);
+    },
+  });
+  // Cart only makes sense for customers — hide for chef/delivery/admin-only accounts.
+  const showCart = !user || roles.length === 0 || roles.includes("customer");
 
   const signOut = async () => {
     await supabase.auth.signOut();
@@ -64,9 +75,11 @@ export function Navbar() {
           {user ? (
             <>
               <NotificationsBell />
-              <Button asChild variant="ghost" size="sm" className="relative">
-                <Link to="/cart"><ShoppingBag className="h-4 w-4" />{count > 0 && <span className="ml-1 text-xs">{count}</span>}</Link>
-              </Button>
+              {showCart && (
+                <Button asChild variant="ghost" size="sm" className="relative">
+                  <Link to="/cart"><ShoppingBag className="h-4 w-4" />{count > 0 && <span className="ml-1 text-xs">{count}</span>}</Link>
+                </Button>
+              )}
               <Button asChild variant="ghost"><Link to="/dashboard">{t("nav.dashboard")}</Link></Button>
               <Button variant="outline" size="icon" onClick={signOut} aria-label="Sign out"><LogOut className="h-4 w-4" /></Button>
             </>
@@ -84,16 +97,18 @@ export function Navbar() {
           {user && (
             <>
               <NotificationsBell />
-              <Button asChild variant="ghost" size="icon" aria-label="Cart" className="relative">
-                <Link to="/cart">
-                  <ShoppingBag className="h-4 w-4" />
-                  {count > 0 && (
-                    <span className="absolute -top-1 -right-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold text-primary-foreground">
-                      {count}
-                    </span>
-                  )}
-                </Link>
-              </Button>
+              {showCart && (
+                <Button asChild variant="ghost" size="icon" aria-label="Cart" className="relative">
+                  <Link to="/cart">
+                    <ShoppingBag className="h-4 w-4" />
+                    {count > 0 && (
+                      <span className="absolute -top-1 -right-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold text-primary-foreground">
+                        {count}
+                      </span>
+                    )}
+                  </Link>
+                </Button>
+              )}
             </>
           )}
           <Sheet>

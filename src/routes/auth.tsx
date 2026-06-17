@@ -14,6 +14,7 @@ import { useAuth } from "@/components/providers/AuthProvider";
 import { useServerFn } from "@tanstack/react-start";
 import { generateUsername } from "@/lib/ai-username.functions";
 import { Sparkles } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -41,6 +42,18 @@ function normalizeDemoEmail(value: string) {
   return normalized;
 }
 
+// Resolve "phone OR email OR username" → email for supabase password sign-in.
+async function resolveLoginEmail(identifier: string): Promise<string | null> {
+  const value = normalizeDemoEmail(identifier);
+  if (value.includes("@")) return value;
+  // Try phone, then username
+  const { data: byPhone } = await supabase.from("profiles").select("email").eq("phone", value).maybeSingle();
+  if (byPhone?.email) return byPhone.email;
+  const { data: byUser } = await supabase.from("profiles").select("email").ilike("username", value).maybeSingle();
+  if (byUser?.email) return byUser.email;
+  return null;
+}
+
 function AuthPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -61,7 +74,8 @@ function AuthPage() {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const signInEmail = normalizeDemoEmail(email);
+    const signInEmail = await resolveLoginEmail(email);
+    if (!signInEmail) { setLoading(false); return toast.error("No account found for that phone / email / username"); }
     const { error } = await supabase.auth.signInWithPassword({ email: signInEmail, password });
     setLoading(false);
     if (error) return toast.error(error.message);
@@ -139,9 +153,11 @@ function AuthPage() {
 
             <TabsContent value="signin">
               <form onSubmit={handleSignIn} className="mt-4 space-y-3">
-                <div><Label htmlFor="email">{t("auth.email")}</Label><Input id="email" type="text" inputMode="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} /></div>
+                <div><Label htmlFor="email">Phone or email</Label><Input id="email" type="text" inputMode="text" autoComplete="username" placeholder="+20… or you@example.com" required value={email} onChange={e => setEmail(e.target.value)} /></div>
                 <div><Label htmlFor="password">{t("auth.password")}</Label><Input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)} /></div>
-                <Button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground">{t("auth.signin")}</Button>
+                <Button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground">
+                  {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Signing in…</> : t("auth.signin")}
+                </Button>
               </form>
               <div className="mt-4 grid grid-cols-2 gap-2">
                 {demoAccounts.map(account => (
@@ -167,9 +183,14 @@ function AuthPage() {
                     <div className="flex gap-1">
                       <Input id="un" required value={username} onChange={e => setUsername(e.target.value)} />
                       <Button type="button" variant="outline" size="icon" onClick={handleGenUsername} disabled={genBusy} title="Generate with AI">
-                        <Sparkles className={`h-4 w-4 ${genBusy ? "animate-pulse" : ""}`} />
+                        {genBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                       </Button>
                     </div>
+                    {genBusy && (
+                      <p className="mt-1 flex items-center gap-1 text-xs text-primary">
+                        <Loader2 className="h-3 w-3 animate-spin" /> AI is thinking of a username…
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div><Label htmlFor="em2">{t("auth.email")} <span className="text-xs text-muted-foreground">(optional)</span></Label><Input id="em2" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" /></div>
