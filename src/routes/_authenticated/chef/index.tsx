@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AlertCircle, CheckCircle2, Clock } from "lucide-react";
+import { AlertCircle, CheckCircle2, Clock, IdCard, MapPin, FileHeart, Wallet, ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/chef/")({
   component: ChefOverview,
@@ -44,6 +44,20 @@ function ChefOverview() {
   });
 
   const verification = profile.data?.verification_status ?? "unverified";
+  const p = profile.data;
+  const steps = [
+    { key: "id", label: "Upload National ID (front & back) + AI check", icon: IdCard,
+      done: !!(p?.id_front_url && p?.id_back_url && (p?.ai_id_check as any)?.is_id) },
+    { key: "map", label: "Pin your kitchen address on the map", icon: MapPin,
+      done: p?.lat != null && p?.lng != null },
+    { key: "health", label: "Upload health certificate", icon: FileHeart,
+      done: !!p?.health_cert_url },
+    { key: "payout", label: "Choose payout method & account", icon: Wallet,
+      done: !!(p?.payment_method && p?.payment_account) },
+  ];
+  const completed = steps.filter(s => s.done).length;
+  const isVerified = verification === "approved";
+  const isPending = verification === "pending";
 
   return (
     <div className="space-y-6">
@@ -51,6 +65,46 @@ function ChefOverview() {
         <p className="text-xs uppercase tracking-widest text-muted-foreground">Kitchen</p>
         <h1 className="mt-1 text-3xl font-bold tracking-tight">Welcome, chef</h1>
       </div>
+
+      {!isVerified && (
+        <Card className="space-y-4 p-5">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="font-semibold">
+                {isPending ? "Awaiting admin review" : "Get verified to start selling"}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {isPending
+                  ? "We'll notify you when an admin reviews your profile."
+                  : `Complete ${steps.length} steps below — customers only see verified chefs.`}
+              </p>
+            </div>
+            <Badge variant="outline">{completed}/{steps.length}</Badge>
+          </div>
+          <ol className="space-y-2">
+            {steps.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <li key={s.key}>
+                  <Link
+                    to="/chef/profile"
+                    className={`flex items-center justify-between gap-3 rounded-lg border p-3 transition hover:border-primary ${s.done ? "border-emerald-500/40 bg-emerald-500/5" : "border-border"}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold ${s.done ? "bg-emerald-500 text-white" : "bg-muted text-muted-foreground"}`}>
+                        {s.done ? <CheckCircle2 className="h-4 w-4" /> : i + 1}
+                      </span>
+                      <Icon className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm font-medium">{s.label}</span>
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  </Link>
+                </li>
+              );
+            })}
+          </ol>
+        </Card>
+      )}
 
       <Card className="flex items-center justify-between p-5">
         <div className="flex items-center gap-3">
@@ -62,7 +116,9 @@ function ChefOverview() {
             <p className="text-xs text-muted-foreground">{verification === "approved" ? "You're live in the marketplace." : "Customers see only verified chefs."}</p>
           </div>
         </div>
-        <Button asChild variant="outline" size="sm"><Link to="/chef/profile">Manage profile</Link></Button>
+        {isVerified && (
+          <Button asChild variant="outline" size="sm"><Link to="/chef/profile">Manage profile</Link></Button>
+        )}
       </Card>
 
       <div className="grid gap-4 sm:grid-cols-3">

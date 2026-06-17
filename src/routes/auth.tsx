@@ -11,6 +11,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 import { useAuth } from "@/components/providers/AuthProvider";
+import { useServerFn } from "@tanstack/react-start";
+import { generateUsername } from "@/lib/ai-username.functions";
+import { Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -42,8 +45,10 @@ function AuthPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const aiUsername = useServerFn(generateUsername);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [loading, setLoading] = useState(false);
+  const [genBusy, setGenBusy] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -67,18 +72,21 @@ function AuthPage() {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Pre-check username uniqueness (email uniqueness is enforced by Supabase auth)
-    const { data: existing } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("username", username)
-      .maybeSingle();
-    if (existing) {
-      setLoading(false);
-      return toast.error("Username already taken — pick another");
+    if (!username) { setLoading(false); return toast.error("Username is required"); }
+    // Pre-check username uniqueness
+    const { data: existingUser } = await supabase
+      .from("profiles").select("id").ilike("username", username).maybeSingle();
+    if (existingUser) { setLoading(false); return toast.error("Username already taken — pick another"); }
+    // Pre-check phone uniqueness when provided
+    if (phone) {
+      const { data: existingPhone } = await supabase
+        .from("profiles").select("id").eq("phone", phone).maybeSingle();
+      if (existingPhone) { setLoading(false); return toast.error("Phone already registered"); }
     }
+    // Derive an email when user leaves it blank — Supabase auth requires one
+    const effectiveEmail = email.trim() || `${username.toLowerCase()}@savora.user`;
     const { error } = await supabase.auth.signUp({
-      email, password,
+      email: effectiveEmail, password,
       options: {
         emailRedirectTo: `${window.location.origin}/dashboard`,
         data: { full_name: fullName, username, role, phone },
@@ -88,9 +96,19 @@ function AuthPage() {
     if (error) return toast.error(error.message);
     toast.success("Account created — signing you in…");
     // Auto sign in (email confirmation is disabled)
-    const { error: signErr } = await supabase.auth.signInWithPassword({ email, password });
+    const { error: signErr } = await supabase.auth.signInWithPassword({ email: effectiveEmail, password });
     if (signErr) { setMode("signin"); return toast.error(signErr.message); }
     navigate({ to: "/dashboard" });
+  };
+
+  const handleGenUsername = async () => {
+    setGenBusy(true);
+    try {
+      const { username: u } = await aiUsername({ data: { hint: fullName } });
+      setUsername(u);
+      toast.success("Username generated");
+    } catch (e: any) { toast.error(e.message); }
+    finally { setGenBusy(false); }
   };
 
   const handleGoogle = async () => {
@@ -144,9 +162,17 @@ function AuthPage() {
               <form onSubmit={handleSignUp} className="mt-4 space-y-3">
                 <div className="grid grid-cols-2 gap-3">
                   <div><Label htmlFor="fn">{t("auth.fullName")}</Label><Input id="fn" required value={fullName} onChange={e => setFullName(e.target.value)} /></div>
-                  <div><Label htmlFor="un">{t("auth.username")}</Label><Input id="un" required value={username} onChange={e => setUsername(e.target.value)} /></div>
+                  <div>
+                    <Label htmlFor="un">{t("auth.username")}</Label>
+                    <div className="flex gap-1">
+                      <Input id="un" required value={username} onChange={e => setUsername(e.target.value)} />
+                      <Button type="button" variant="outline" size="icon" onClick={handleGenUsername} disabled={genBusy} title="Generate with AI">
+                        <Sparkles className={`h-4 w-4 ${genBusy ? "animate-pulse" : ""}`} />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-                <div><Label htmlFor="em2">{t("auth.email")}</Label><Input id="em2" type="email" required value={email} onChange={e => setEmail(e.target.value)} /></div>
+                <div><Label htmlFor="em2">{t("auth.email")} <span className="text-xs text-muted-foreground">(optional)</span></Label><Input id="em2" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" /></div>
                 <div><Label htmlFor="ph">{t("auth.phone")}</Label><Input id="ph" type="tel" placeholder="+20..." value={phone} onChange={e => setPhone(e.target.value)} /></div>
                 <div><Label htmlFor="pw2">{t("auth.password")}</Label><Input id="pw2" type="password" required minLength={6} value={password} onChange={e => setPassword(e.target.value)} /></div>
                 <div>
