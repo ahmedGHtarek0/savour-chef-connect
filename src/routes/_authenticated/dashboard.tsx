@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/providers/AuthProvider";
@@ -20,7 +21,17 @@ const ROLE_CARDS = {
 function Dashboard() {
   const { user, roles } = useAuth();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const activeRoles = roles.length ? roles : (["customer"] as const);
+
+  // If user only has a single non-customer role, jump straight to their console.
+  useEffect(() => {
+    if (roles.length !== 1) return;
+    const r = roles[0];
+    if (r === "chef") navigate({ to: "/chef", replace: true });
+    else if (r === "delivery") navigate({ to: "/delivery", replace: true });
+    else if (r === "admin") navigate({ to: "/admin", replace: true });
+  }, [roles, navigate]);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--gradient-hero)" }}>
