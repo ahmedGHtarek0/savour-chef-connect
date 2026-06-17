@@ -1,12 +1,13 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { Navbar } from "./Navbar";
-import { ChefHat, ListOrdered, BookOpen, Wallet, Settings, Sparkles, ShieldCheck } from "lucide-react";
+import { ChefHat, ListOrdered, BookOpen, Wallet, Settings, Sparkles, ShieldCheck, BarChart3 } from "lucide-react";
 
 const NAV = [
   { to: "/chef", label: "Overview", icon: ChefHat, exact: true },
   { to: "/chef/menu", label: "Menu", icon: BookOpen, exact: false },
   { to: "/chef/orders", label: "Orders", icon: ListOrdered, exact: false },
   { to: "/chef/payouts", label: "Payouts", icon: Wallet, exact: false },
+  { to: "/chef/analytics", label: "Analytics", icon: BarChart3, exact: false },
   { to: "/chef/insights", label: "Insights", icon: Sparkles, exact: false },
   { to: "/chef/verify", label: "Verification", icon: ShieldCheck, exact: false },
   { to: "/profile", label: "Profile", icon: Settings, exact: false },
