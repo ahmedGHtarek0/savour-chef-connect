@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Card } from "@/components/ui/card";
@@ -72,10 +73,10 @@ function ChefOrders() {
         {open.map((o: any) => {
           const next = FLOW.find((f) => (f.from as readonly string[]).includes(o.status));
           return (
-            <Card key={o.id} className="p-4">
+            <Card key={o.id} className="p-4 hover:shadow-md transition-shadow">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <p className="font-mono text-xs text-muted-foreground">#{o.id.slice(0, 8)}</p>
+                  <Link to="/chef/orders/$orderId" params={{ orderId: o.id }} className="font-mono text-xs text-primary hover:underline">#{o.id.slice(0, 8)}</Link>
                   <p className="text-xs text-muted-foreground">{new Date(o.placed_at).toLocaleString()}</p>
                 </div>
                 <div className="flex gap-2">
@@ -91,6 +92,7 @@ function ChefOrders() {
               {o.customer_addresses && <p className="mt-2 text-xs text-muted-foreground">Deliver to {o.customer_addresses.label}: {o.customer_addresses.address}</p>}
               {o.notes && <p className="mt-1 rounded bg-muted p-2 text-xs">📝 {o.notes}</p>}
               <div className="mt-3 flex gap-2">
+                <Button asChild size="sm" variant="secondary"><Link to="/chef/orders/$orderId" params={{ orderId: o.id }}>View details</Link></Button>
                 {next && <Button size="sm" onClick={() => setStatus(o.id, next.to)}>{next.label}</Button>}
                 <Button size="sm" variant="outline" onClick={() => setStatus(o.id, "cancelled")}>Cancel</Button>
               </div>
@@ -103,8 +105,8 @@ function ChefOrders() {
       <section className="space-y-2">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Past ({past.length})</h2>
         {past.slice(0, 20).map((o: any) => (
-          <Card key={o.id} className="flex items-center justify-between p-3 text-sm">
-            <span className="font-mono text-xs">#{o.id.slice(0, 8)}</span>
+          <Card key={o.id} className="flex items-center justify-between p-3 text-sm hover:shadow-sm transition-shadow">
+            <Link to="/chef/orders/$orderId" params={{ orderId: o.id }} className="font-mono text-xs text-primary hover:underline">#{o.id.slice(0, 8)}</Link>
             <Badge variant="outline">{o.status}</Badge>
             <span>{Number(o.total).toFixed(2)}</span>
           </Card>
