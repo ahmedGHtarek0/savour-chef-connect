@@ -183,9 +183,14 @@ function AuthPage() {
                     <div className="flex gap-1">
                       <Input id="un" required value={username} onChange={e => setUsername(e.target.value)} />
                       <Button type="button" variant="outline" size="icon" onClick={handleGenUsername} disabled={genBusy} title="Generate with AI">
-                        <Sparkles className={`h-4 w-4 ${genBusy ? "animate-pulse" : ""}`} />
+                        {genBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                       </Button>
                     </div>
+                    {genBusy && (
+                      <p className="mt-1 flex items-center gap-1 text-xs text-primary">
+                        <Loader2 className="h-3 w-3 animate-spin" /> AI is thinking of a username…
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div><Label htmlFor="em2">{t("auth.email")} <span className="text-xs text-muted-foreground">(optional)</span></Label><Input id="em2" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" /></div>
