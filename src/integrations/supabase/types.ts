@@ -100,6 +100,7 @@ export type Database = {
           item_id: string
           lead_time_hours: number
           price: number
+          unit_mode: string
           updated_at: string
         }
         Insert: {
@@ -110,6 +111,7 @@ export type Database = {
           item_id: string
           lead_time_hours?: number
           price: number
+          unit_mode?: string
           updated_at?: string
         }
         Update: {
@@ -120,6 +122,7 @@ export type Database = {
           item_id?: string
           lead_time_hours?: number
           price?: number
+          unit_mode?: string
           updated_at?: string
         }
         Relationships: [
@@ -144,6 +147,7 @@ export type Database = {
           id_front_url: string | null
           lat: number | null
           lng: number | null
+          max_orders_per_day: number | null
           payment_account: string | null
           payment_method: string | null
           rejection_reason: string | null
@@ -166,6 +170,7 @@ export type Database = {
           id_front_url?: string | null
           lat?: number | null
           lng?: number | null
+          max_orders_per_day?: number | null
           payment_account?: string | null
           payment_method?: string | null
           rejection_reason?: string | null
@@ -188,6 +193,7 @@ export type Database = {
           id_front_url?: string | null
           lat?: number | null
           lng?: number | null
+          max_orders_per_day?: number | null
           payment_account?: string | null
           payment_method?: string | null
           rejection_reason?: string | null
