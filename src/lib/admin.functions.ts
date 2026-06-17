@@ -25,7 +25,7 @@ export const claimAdminIfUnclaimed = createServerFn({ method: "POST" })
 
 export const verifyChef = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { chefId: string; status: "approved" | "rejected" }) => d)
+  .inputValidator((d: { chefId: string; status: "approved" | "rejected"; rejectionReason?: string | null }) => d)
   .handler(async ({ data, context }) => {
     const { data: isAdmin } = await context.supabase.rpc("has_role", {
       _user_id: context.userId,
@@ -35,9 +35,23 @@ export const verifyChef = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin
       .from("chef_profiles")
-      .update({ verification_status: data.status })
+      .update({
+        verification_status: data.status,
+        rejection_reason: data.status === "rejected" ? (data.rejectionReason ?? null) : null,
+        reviewed_at: new Date().toISOString(),
+        reviewed_by: context.userId,
+      })
       .eq("user_id", data.chefId);
     if (error) throw error;
+    await supabaseAdmin.from("notifications").insert({
+      user_id: data.chefId,
+      type: "verification",
+      title: data.status === "approved" ? "You're verified!" : "Verification rejected",
+      body:
+        data.status === "approved"
+          ? "Your chef profile is approved. You can start selling."
+          : data.rejectionReason ?? "Please review and resubmit your documents.",
+    });
     return { ok: true };
   });
 
