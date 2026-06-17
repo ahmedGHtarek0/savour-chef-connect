@@ -39,7 +39,7 @@ function ChefOrderDetail() {
     queryFn: async () => {
       const { data: order, error } = await supabase
         .from("orders")
-        .select("id, status, payment_status, total, placed_at, created_at, notes, customer_id, customer_addresses(label, address, phone)")
+        .select("id, status, payment_status, total, placed_at, created_at, notes, customer_id, customer_addresses(label, address)")
         .eq("id", orderId)
         .maybeSingle();
       if (error) throw error;
