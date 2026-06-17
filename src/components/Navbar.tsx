@@ -125,7 +125,7 @@ export function Navbar() {
                     <Button asChild variant="ghost" className="justify-start"><Link to="/profile">My profile</Link></Button>
                     <Button asChild variant="ghost" className="justify-start"><Link to="/browse">Browse</Link></Button>
                     <Button asChild variant="ghost" className="justify-start"><Link to="/orders">Orders</Link></Button>
-                    <Button asChild variant="ghost" className="justify-start"><Link to="/cart">Cart</Link></Button>
+                    {showCart && <Button asChild variant="ghost" className="justify-start"><Link to="/cart">Cart</Link></Button>}
                     <Button asChild variant="ghost" className="justify-start"><Link to="/memberships">Memberships</Link></Button>
                     <Button asChild variant="ghost" className="justify-start"><Link to="/groups">Group orders</Link></Button>
                   </>
