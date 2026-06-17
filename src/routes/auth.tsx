@@ -14,6 +14,7 @@ import { useAuth } from "@/components/providers/AuthProvider";
 import { useServerFn } from "@tanstack/react-start";
 import { generateUsername } from "@/lib/ai-username.functions";
 import { Sparkles } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -41,6 +42,18 @@ function normalizeDemoEmail(value: string) {
   return normalized;
 }
 
+// Resolve "phone OR email OR username" → email for supabase password sign-in.
+async function resolveLoginEmail(identifier: string): Promise<string | null> {
+  const value = normalizeDemoEmail(identifier);
+  if (value.includes("@")) return value;
+  // Try phone, then username
+  const { data: byPhone } = await supabase.from("profiles").select("email").eq("phone", value).maybeSingle();
+  if (byPhone?.email) return byPhone.email;
+  const { data: byUser } = await supabase.from("profiles").select("email").ilike("username", value).maybeSingle();
+  if (byUser?.email) return byUser.email;
+  return null;
+}
+
 function AuthPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -61,7 +74,8 @@ function AuthPage() {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const signInEmail = normalizeDemoEmail(email);
+    const signInEmail = await resolveLoginEmail(email);
+    if (!signInEmail) { setLoading(false); return toast.error("No account found for that phone / email / username"); }
     const { error } = await supabase.auth.signInWithPassword({ email: signInEmail, password });
     setLoading(false);
     if (error) return toast.error(error.message);
