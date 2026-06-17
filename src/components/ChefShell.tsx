@@ -8,7 +8,7 @@ const NAV = [
   { to: "/chef/orders", label: "Orders", icon: ListOrdered, exact: false },
   { to: "/chef/payouts", label: "Payouts", icon: Wallet, exact: false },
   { to: "/chef/insights", label: "Insights", icon: Sparkles, exact: false },
-  { to: "/chef/verify/id", label: "Verification", icon: ShieldCheck, exact: false },
+  { to: "/chef/verify", label: "Verification", icon: ShieldCheck, exact: false },
   { to: "/profile", label: "Profile", icon: Settings, exact: false },
 ] as const;
 
