@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { useServerFn } from "@tanstack/react-start";
 import { verifyChef } from "@/lib/admin.functions";
 import { toast } from "sonner";
-import { Check, X } from "lucide-react";
+import { Check, X, Eye } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/admin/chefs")({
   component: ChefsPage,
@@ -50,6 +51,9 @@ function ChefsPage() {
                 </td>
                 <td className="p-3">
                   <div className="flex justify-end gap-2">
+                    <Button asChild size="sm" variant="outline">
+                      <Link to="/admin/chefs/$chefId" params={{ chefId: c.user_id }}><Eye className="h-4 w-4 mr-1" /> Review</Link>
+                    </Button>
                     <Button size="sm" variant="outline" onClick={() => act(c.user_id, "approved")}><Check className="h-4 w-4 mr-1" /> Approve</Button>
                     <Button size="sm" variant="outline" onClick={() => act(c.user_id, "rejected")}><X className="h-4 w-4 mr-1" /> Reject</Button>
                   </div>

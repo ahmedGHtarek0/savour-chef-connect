@@ -4,7 +4,7 @@ import { Logo3D } from "./Logo3D";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetHeader } from "@/components/ui/sheet";
-import { Globe, Palette, LogOut, ShoppingBag, Menu } from "lucide-react";
+import { Globe, Palette, LogOut, ShoppingBag, Menu, User } from "lucide-react";
 import { LANGUAGES } from "@/lib/i18n";
 import { THEMES, useTheme } from "./providers/ThemeProvider";
 import { useAuth } from "./providers/AuthProvider";
@@ -81,6 +81,7 @@ export function Navbar() {
                 </Button>
               )}
               <Button asChild variant="ghost"><Link to="/dashboard">{t("nav.dashboard")}</Link></Button>
+              <Button asChild variant="ghost" size="icon" aria-label="Profile"><Link to="/profile"><User className="h-4 w-4" /></Link></Button>
               <Button variant="outline" size="icon" onClick={signOut} aria-label="Sign out"><LogOut className="h-4 w-4" /></Button>
             </>
           ) : (
@@ -121,6 +122,7 @@ export function Navbar() {
                 {user ? (
                   <>
                     <Button asChild variant="ghost" className="justify-start"><Link to="/dashboard">{t("nav.dashboard")}</Link></Button>
+                    <Button asChild variant="ghost" className="justify-start"><Link to="/profile">My profile</Link></Button>
                     <Button asChild variant="ghost" className="justify-start"><Link to="/browse">Browse</Link></Button>
                     <Button asChild variant="ghost" className="justify-start"><Link to="/orders">Orders</Link></Button>
                     <Button asChild variant="ghost" className="justify-start"><Link to="/cart">Cart</Link></Button>

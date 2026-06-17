@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AlertCircle, CheckCircle2, Clock, IdCard, MapPin, FileHeart, Wallet, ChevronRight } from "lucide-react";
+import { AlertCircle, CheckCircle2, Clock, IdCard, MapPin, FileHeart, Wallet, Gauge, ChevronRight, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/chef/")({
   component: ChefOverview,
@@ -46,15 +46,17 @@ function ChefOverview() {
   const verification = profile.data?.verification_status ?? "unverified";
   const p = profile.data;
   const steps = [
-    { key: "id", label: "Upload National ID (front & back) + AI check", icon: IdCard,
+    { key: "id", to: "/chef/verify/id", label: "Upload National ID (front & back) + AI check", icon: IdCard,
       done: !!(p?.id_front_url && p?.id_back_url && (p?.ai_id_check as any)?.is_id) },
-    { key: "map", label: "Pin your kitchen address on the map", icon: MapPin,
+    { key: "map", to: "/chef/verify/address", label: "Pin your kitchen address on the map", icon: MapPin,
       done: p?.lat != null && p?.lng != null },
-    { key: "health", label: "Upload health certificate", icon: FileHeart,
+    { key: "health", to: "/chef/verify/health", label: "Upload health certificate", icon: FileHeart,
       done: !!p?.health_cert_url },
-    { key: "payout", label: "Choose payout method & account", icon: Wallet,
+    { key: "payout", to: "/chef/verify/payout", label: "Choose payout method & account", icon: Wallet,
       done: !!(p?.payment_method && p?.payment_account) },
-  ];
+    { key: "capacity", to: "/chef/verify/capacity", label: "Set your maximum orders per day", icon: Gauge,
+      done: (p?.max_orders_per_day ?? 0) > 0 },
+  ] as const;
   const completed = steps.filter(s => s.done).length;
   const isVerified = verification === "approved";
   const isPending = verification === "pending";
@@ -87,7 +89,7 @@ function ChefOverview() {
               return (
                 <li key={s.key}>
                   <Link
-                    to="/chef/profile"
+                    to={s.to}
                     className={`flex items-center justify-between gap-3 rounded-lg border p-3 transition hover:border-primary ${s.done ? "border-emerald-500/40 bg-emerald-500/5" : "border-border"}`}
                   >
                     <div className="flex items-center gap-3">
@@ -116,9 +118,11 @@ function ChefOverview() {
             <p className="text-xs text-muted-foreground">{verification === "approved" ? "You're live in the marketplace." : "Customers see only verified chefs."}</p>
           </div>
         </div>
-        {isVerified && (
-          <Button asChild variant="outline" size="sm"><Link to="/chef/profile">Manage profile</Link></Button>
-        )}
+        <Button asChild variant="outline" size="sm">
+          <Link to={isVerified ? "/chef/insights" : "/chef/verify/id"}>
+            {isVerified ? (<><Sparkles className="mr-1 h-4 w-4" /> AI insights</>) : "Continue verification"}
+          </Link>
+        </Button>
       </Card>
 
       <div className="grid gap-4 sm:grid-cols-3">
