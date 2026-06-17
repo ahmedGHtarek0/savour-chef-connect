@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, Link, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useRouterState, redirect } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/components/providers/AuthProvider";
@@ -11,6 +11,9 @@ import { toast } from "sonner";
 import { IdCard, MapPin, FileHeart, Wallet, Gauge, ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/chef/verify")({
+  beforeLoad: ({ location }) => {
+    if (location.pathname === "/chef/verify") throw redirect({ to: "/chef/verify/id" });
+  },
   component: VerifyLayout,
 });
 
