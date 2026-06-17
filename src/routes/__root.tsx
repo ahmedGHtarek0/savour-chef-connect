@@ -16,6 +16,7 @@ import { I18nProvider } from "@/components/providers/I18nProvider";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { CartProvider } from "@/lib/cart";
 import { Toaster } from "@/components/ui/sonner";
+import { PageTransition } from "@/components/PageTransition";
 
 function NotFoundComponent() {
   return (
@@ -127,7 +128,9 @@ function RootComponent() {
         <I18nProvider>
           <AuthProvider>
             <CartProvider>
-              <Outlet />
+              <PageTransition>
+                <Outlet />
+              </PageTransition>
               <Toaster />
             </CartProvider>
           </AuthProvider>
