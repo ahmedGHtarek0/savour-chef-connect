@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.tg_enforce_chef_capacity() FROM anon, authenticated, public;
