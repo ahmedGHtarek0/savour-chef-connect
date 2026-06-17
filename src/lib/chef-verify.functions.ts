@@ -97,8 +97,8 @@ export const chefAiRecommendations = createServerFn({ method: "POST" })
     const { supabase, userId } = context;
 
     const [{ data: items }, { data: orderItems }, { data: reviews }] = await Promise.all([
-      supabase.from("chef_items").select("title, price, available, unit_mode").eq("chef_id", userId),
-      supabase.from("order_items").select("chef_item_id, qty, unit_price, orders!inner(status, created_at)").eq("chef_id", userId).limit(200),
+      supabase.from("chef_items").select("price, available, unit_mode, min_qty, max_qty, items(name)").eq("chef_id", userId),
+      supabase.from("order_items").select("qty, unit_price, orders!inner(status, created_at)").eq("chef_id", userId).limit(200),
       supabase.from("reviews").select("rating, comment, created_at").eq("chef_id", userId).limit(50),
     ]);
 

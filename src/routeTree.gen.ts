@@ -51,6 +51,7 @@ import { Route as AuthenticatedChefVerifyIdRouteImport } from './routes/_authent
 import { Route as AuthenticatedChefVerifyHealthRouteImport } from './routes/_authenticated/chef/verify.health'
 import { Route as AuthenticatedChefVerifyCapacityRouteImport } from './routes/_authenticated/chef/verify.capacity'
 import { Route as AuthenticatedChefVerifyAddressRouteImport } from './routes/_authenticated/chef/verify.address'
+import { Route as AuthenticatedChefOrdersOrderIdRouteImport } from './routes/_authenticated/chef/orders.$orderId'
 import { Route as AuthenticatedAdminChefsChefIdRouteImport } from './routes/_authenticated/admin/chefs.$chefId'
 
 const AuthRoute = AuthRouteImport.update({
@@ -287,6 +288,12 @@ const AuthenticatedChefVerifyAddressRoute =
     path: '/address',
     getParentRoute: () => AuthenticatedChefVerifyRoute,
   } as any)
+const AuthenticatedChefOrdersOrderIdRoute =
+  AuthenticatedChefOrdersOrderIdRouteImport.update({
+    id: '/$orderId',
+    path: '/$orderId',
+    getParentRoute: () => AuthenticatedChefOrdersRoute,
+  } as any)
 const AuthenticatedAdminChefsChefIdRoute =
   AuthenticatedAdminChefsChefIdRouteImport.update({
     id: '/$chefId',
@@ -316,7 +323,7 @@ export interface FileRoutesByFullPath {
   '/chef/analytics': typeof AuthenticatedChefAnalyticsRoute
   '/chef/insights': typeof AuthenticatedChefInsightsRoute
   '/chef/menu': typeof AuthenticatedChefMenuRoute
-  '/chef/orders': typeof AuthenticatedChefOrdersRoute
+  '/chef/orders': typeof AuthenticatedChefOrdersRouteWithChildren
   '/chef/payouts': typeof AuthenticatedChefPayoutsRoute
   '/chef/profile': typeof AuthenticatedChefProfileRoute
   '/chef/verify': typeof AuthenticatedChefVerifyRouteWithChildren
@@ -332,6 +339,7 @@ export interface FileRoutesByFullPath {
   '/groups/': typeof AuthenticatedGroupsIndexRoute
   '/orders/': typeof AuthenticatedOrdersIndexRoute
   '/admin/chefs/$chefId': typeof AuthenticatedAdminChefsChefIdRoute
+  '/chef/orders/$orderId': typeof AuthenticatedChefOrdersOrderIdRoute
   '/chef/verify/address': typeof AuthenticatedChefVerifyAddressRoute
   '/chef/verify/capacity': typeof AuthenticatedChefVerifyCapacityRoute
   '/chef/verify/health': typeof AuthenticatedChefVerifyHealthRoute
@@ -357,7 +365,7 @@ export interface FileRoutesByTo {
   '/chef/analytics': typeof AuthenticatedChefAnalyticsRoute
   '/chef/insights': typeof AuthenticatedChefInsightsRoute
   '/chef/menu': typeof AuthenticatedChefMenuRoute
-  '/chef/orders': typeof AuthenticatedChefOrdersRoute
+  '/chef/orders': typeof AuthenticatedChefOrdersRouteWithChildren
   '/chef/payouts': typeof AuthenticatedChefPayoutsRoute
   '/chef/profile': typeof AuthenticatedChefProfileRoute
   '/chef/verify': typeof AuthenticatedChefVerifyRouteWithChildren
@@ -373,6 +381,7 @@ export interface FileRoutesByTo {
   '/groups': typeof AuthenticatedGroupsIndexRoute
   '/orders': typeof AuthenticatedOrdersIndexRoute
   '/admin/chefs/$chefId': typeof AuthenticatedAdminChefsChefIdRoute
+  '/chef/orders/$orderId': typeof AuthenticatedChefOrdersOrderIdRoute
   '/chef/verify/address': typeof AuthenticatedChefVerifyAddressRoute
   '/chef/verify/capacity': typeof AuthenticatedChefVerifyCapacityRoute
   '/chef/verify/health': typeof AuthenticatedChefVerifyHealthRoute
@@ -403,7 +412,7 @@ export interface FileRoutesById {
   '/_authenticated/chef/analytics': typeof AuthenticatedChefAnalyticsRoute
   '/_authenticated/chef/insights': typeof AuthenticatedChefInsightsRoute
   '/_authenticated/chef/menu': typeof AuthenticatedChefMenuRoute
-  '/_authenticated/chef/orders': typeof AuthenticatedChefOrdersRoute
+  '/_authenticated/chef/orders': typeof AuthenticatedChefOrdersRouteWithChildren
   '/_authenticated/chef/payouts': typeof AuthenticatedChefPayoutsRoute
   '/_authenticated/chef/profile': typeof AuthenticatedChefProfileRoute
   '/_authenticated/chef/verify': typeof AuthenticatedChefVerifyRouteWithChildren
@@ -419,6 +428,7 @@ export interface FileRoutesById {
   '/_authenticated/groups/': typeof AuthenticatedGroupsIndexRoute
   '/_authenticated/orders/': typeof AuthenticatedOrdersIndexRoute
   '/_authenticated/admin/chefs/$chefId': typeof AuthenticatedAdminChefsChefIdRoute
+  '/_authenticated/chef/orders/$orderId': typeof AuthenticatedChefOrdersOrderIdRoute
   '/_authenticated/chef/verify/address': typeof AuthenticatedChefVerifyAddressRoute
   '/_authenticated/chef/verify/capacity': typeof AuthenticatedChefVerifyCapacityRoute
   '/_authenticated/chef/verify/health': typeof AuthenticatedChefVerifyHealthRoute
@@ -465,6 +475,7 @@ export interface FileRouteTypes {
     | '/groups/'
     | '/orders/'
     | '/admin/chefs/$chefId'
+    | '/chef/orders/$orderId'
     | '/chef/verify/address'
     | '/chef/verify/capacity'
     | '/chef/verify/health'
@@ -506,6 +517,7 @@ export interface FileRouteTypes {
     | '/groups'
     | '/orders'
     | '/admin/chefs/$chefId'
+    | '/chef/orders/$orderId'
     | '/chef/verify/address'
     | '/chef/verify/capacity'
     | '/chef/verify/health'
@@ -551,6 +563,7 @@ export interface FileRouteTypes {
     | '/_authenticated/groups/'
     | '/_authenticated/orders/'
     | '/_authenticated/admin/chefs/$chefId'
+    | '/_authenticated/chef/orders/$orderId'
     | '/_authenticated/chef/verify/address'
     | '/_authenticated/chef/verify/capacity'
     | '/_authenticated/chef/verify/health'
@@ -860,6 +873,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChefVerifyAddressRouteImport
       parentRoute: typeof AuthenticatedChefVerifyRoute
     }
+    '/_authenticated/chef/orders/$orderId': {
+      id: '/_authenticated/chef/orders/$orderId'
+      path: '/$orderId'
+      fullPath: '/chef/orders/$orderId'
+      preLoaderRoute: typeof AuthenticatedChefOrdersOrderIdRouteImport
+      parentRoute: typeof AuthenticatedChefOrdersRoute
+    }
     '/_authenticated/admin/chefs/$chefId': {
       id: '/_authenticated/admin/chefs/$chefId'
       path: '/$chefId'
@@ -914,6 +934,20 @@ const AuthenticatedAdminRouteRouteWithChildren =
     AuthenticatedAdminRouteRouteChildren,
   )
 
+interface AuthenticatedChefOrdersRouteChildren {
+  AuthenticatedChefOrdersOrderIdRoute: typeof AuthenticatedChefOrdersOrderIdRoute
+}
+
+const AuthenticatedChefOrdersRouteChildren: AuthenticatedChefOrdersRouteChildren =
+  {
+    AuthenticatedChefOrdersOrderIdRoute: AuthenticatedChefOrdersOrderIdRoute,
+  }
+
+const AuthenticatedChefOrdersRouteWithChildren =
+  AuthenticatedChefOrdersRoute._addFileChildren(
+    AuthenticatedChefOrdersRouteChildren,
+  )
+
 interface AuthenticatedChefVerifyRouteChildren {
   AuthenticatedChefVerifyAddressRoute: typeof AuthenticatedChefVerifyAddressRoute
   AuthenticatedChefVerifyCapacityRoute: typeof AuthenticatedChefVerifyCapacityRoute
@@ -940,7 +974,7 @@ interface AuthenticatedChefRouteRouteChildren {
   AuthenticatedChefAnalyticsRoute: typeof AuthenticatedChefAnalyticsRoute
   AuthenticatedChefInsightsRoute: typeof AuthenticatedChefInsightsRoute
   AuthenticatedChefMenuRoute: typeof AuthenticatedChefMenuRoute
-  AuthenticatedChefOrdersRoute: typeof AuthenticatedChefOrdersRoute
+  AuthenticatedChefOrdersRoute: typeof AuthenticatedChefOrdersRouteWithChildren
   AuthenticatedChefPayoutsRoute: typeof AuthenticatedChefPayoutsRoute
   AuthenticatedChefProfileRoute: typeof AuthenticatedChefProfileRoute
   AuthenticatedChefVerifyRoute: typeof AuthenticatedChefVerifyRouteWithChildren
@@ -952,7 +986,7 @@ const AuthenticatedChefRouteRouteChildren: AuthenticatedChefRouteRouteChildren =
     AuthenticatedChefAnalyticsRoute: AuthenticatedChefAnalyticsRoute,
     AuthenticatedChefInsightsRoute: AuthenticatedChefInsightsRoute,
     AuthenticatedChefMenuRoute: AuthenticatedChefMenuRoute,
-    AuthenticatedChefOrdersRoute: AuthenticatedChefOrdersRoute,
+    AuthenticatedChefOrdersRoute: AuthenticatedChefOrdersRouteWithChildren,
     AuthenticatedChefPayoutsRoute: AuthenticatedChefPayoutsRoute,
     AuthenticatedChefProfileRoute: AuthenticatedChefProfileRoute,
     AuthenticatedChefVerifyRoute: AuthenticatedChefVerifyRouteWithChildren,
@@ -1027,13 +1061,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

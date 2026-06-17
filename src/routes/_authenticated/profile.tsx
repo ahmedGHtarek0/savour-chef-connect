@@ -29,6 +29,8 @@ function ProfilePage() {
   const [phone, setPhone] = useState("");
   const [avatar, setAvatar] = useState("");
   const [saving, setSaving] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [changingPwd, setChangingPwd] = useState(false);
 
   useEffect(() => {
     if (!profile.data) return;
@@ -57,6 +59,16 @@ function ProfilePage() {
     profile.refetch();
   }
 
+  async function changePassword() {
+    if (newPassword.length < 8) return toast.error("Password must be at least 8 characters");
+    setChangingPwd(true);
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    setChangingPwd(false);
+    if (error) return toast.error(error.message);
+    setNewPassword("");
+    toast.success("Password updated");
+  }
+
   return (
     <div className="min-h-screen" style={{ background: "var(--gradient-hero)" }}>
       <Navbar />
@@ -80,6 +92,17 @@ function ProfilePage() {
             <div><Label>Phone</Label><Input value={phone} onChange={e => setPhone(e.target.value)} className="mt-2" /></div>
           </div>
           <div className="flex justify-end"><Button onClick={save} disabled={saving}>{saving ? "Saving…" : "Save changes"}</Button></div>
+        </Card>
+
+        <Card className="space-y-4 p-6">
+          <div>
+            <h2 className="text-lg font-semibold">Change password</h2>
+            <p className="text-sm text-muted-foreground">At least 8 characters.</p>
+          </div>
+          <div className="flex gap-2">
+            <Input type="password" placeholder="New password" value={newPassword} onChange={e => setNewPassword(e.target.value)} />
+            <Button onClick={changePassword} disabled={changingPwd || newPassword.length < 8}>{changingPwd ? "Updating…" : "Update"}</Button>
+          </div>
         </Card>
       </div>
     </div>
