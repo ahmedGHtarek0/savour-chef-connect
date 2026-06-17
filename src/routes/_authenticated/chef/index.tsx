@@ -46,6 +46,8 @@ function ChefOverview() {
   const verification = profile.data?.verification_status ?? "unverified";
   const p = profile.data;
   const steps = [
+    { key: "capacity", to: "/chef/verify/capacity", label: "Set your maximum orders per day", icon: Gauge,
+      done: (p?.max_orders_per_day ?? 0) > 0 },
     { key: "id", to: "/chef/verify/id", label: "Upload National ID (front & back) + AI check", icon: IdCard,
       done: !!(p?.id_front_url && p?.id_back_url && (p?.ai_id_check as any)?.is_id) },
     { key: "map", to: "/chef/verify/address", label: "Pin your kitchen address on the map", icon: MapPin,
@@ -54,8 +56,6 @@ function ChefOverview() {
       done: !!p?.health_cert_url },
     { key: "payout", to: "/chef/verify/payout", label: "Choose payout method & account", icon: Wallet,
       done: !!(p?.payment_method && p?.payment_account) },
-    { key: "capacity", to: "/chef/verify/capacity", label: "Set your maximum orders per day", icon: Gauge,
-      done: (p?.max_orders_per_day ?? 0) > 0 },
   ] as const;
   const completed = steps.filter(s => s.done).length;
   const isVerified = verification === "approved";
