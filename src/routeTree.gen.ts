@@ -30,6 +30,7 @@ import { Route as AuthenticatedDeliveryProfileRouteImport } from './routes/_auth
 import { Route as AuthenticatedDeliveryJobsRouteImport } from './routes/_authenticated/delivery/jobs'
 import { Route as AuthenticatedDeliveryActiveRouteImport } from './routes/_authenticated/delivery/active'
 import { Route as AuthenticatedChefsChefIdRouteImport } from './routes/_authenticated/chefs.$chefId'
+import { Route as AuthenticatedChefVerifyRouteImport } from './routes/_authenticated/chef/verify'
 import { Route as AuthenticatedChefProfileRouteImport } from './routes/_authenticated/chef/profile'
 import { Route as AuthenticatedChefPayoutsRouteImport } from './routes/_authenticated/chef/payouts'
 import { Route as AuthenticatedChefOrdersRouteImport } from './routes/_authenticated/chef/orders'
@@ -158,6 +159,11 @@ const AuthenticatedChefsChefIdRoute =
     path: '/chefs/$chefId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedChefVerifyRoute = AuthenticatedChefVerifyRouteImport.update({
+  id: '/verify',
+  path: '/verify',
+  getParentRoute: () => AuthenticatedChefRouteRoute,
+} as any)
 const AuthenticatedChefProfileRoute =
   AuthenticatedChefProfileRouteImport.update({
     id: '/profile',
@@ -248,6 +254,7 @@ export interface FileRoutesByFullPath {
   '/chef/orders': typeof AuthenticatedChefOrdersRoute
   '/chef/payouts': typeof AuthenticatedChefPayoutsRoute
   '/chef/profile': typeof AuthenticatedChefProfileRoute
+  '/chef/verify': typeof AuthenticatedChefVerifyRoute
   '/chefs/$chefId': typeof AuthenticatedChefsChefIdRoute
   '/delivery/active': typeof AuthenticatedDeliveryActiveRoute
   '/delivery/jobs': typeof AuthenticatedDeliveryJobsRoute
@@ -279,6 +286,7 @@ export interface FileRoutesByTo {
   '/chef/orders': typeof AuthenticatedChefOrdersRoute
   '/chef/payouts': typeof AuthenticatedChefPayoutsRoute
   '/chef/profile': typeof AuthenticatedChefProfileRoute
+  '/chef/verify': typeof AuthenticatedChefVerifyRoute
   '/chefs/$chefId': typeof AuthenticatedChefsChefIdRoute
   '/delivery/active': typeof AuthenticatedDeliveryActiveRoute
   '/delivery/jobs': typeof AuthenticatedDeliveryJobsRoute
@@ -315,6 +323,7 @@ export interface FileRoutesById {
   '/_authenticated/chef/orders': typeof AuthenticatedChefOrdersRoute
   '/_authenticated/chef/payouts': typeof AuthenticatedChefPayoutsRoute
   '/_authenticated/chef/profile': typeof AuthenticatedChefProfileRoute
+  '/_authenticated/chef/verify': typeof AuthenticatedChefVerifyRoute
   '/_authenticated/chefs/$chefId': typeof AuthenticatedChefsChefIdRoute
   '/_authenticated/delivery/active': typeof AuthenticatedDeliveryActiveRoute
   '/_authenticated/delivery/jobs': typeof AuthenticatedDeliveryJobsRoute
@@ -351,6 +360,7 @@ export interface FileRouteTypes {
     | '/chef/orders'
     | '/chef/payouts'
     | '/chef/profile'
+    | '/chef/verify'
     | '/chefs/$chefId'
     | '/delivery/active'
     | '/delivery/jobs'
@@ -382,6 +392,7 @@ export interface FileRouteTypes {
     | '/chef/orders'
     | '/chef/payouts'
     | '/chef/profile'
+    | '/chef/verify'
     | '/chefs/$chefId'
     | '/delivery/active'
     | '/delivery/jobs'
@@ -417,6 +428,7 @@ export interface FileRouteTypes {
     | '/_authenticated/chef/orders'
     | '/_authenticated/chef/payouts'
     | '/_authenticated/chef/profile'
+    | '/_authenticated/chef/verify'
     | '/_authenticated/chefs/$chefId'
     | '/_authenticated/delivery/active'
     | '/_authenticated/delivery/jobs'
@@ -585,6 +597,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChefsChefIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/chef/verify': {
+      id: '/_authenticated/chef/verify'
+      path: '/verify'
+      fullPath: '/chef/verify'
+      preLoaderRoute: typeof AuthenticatedChefVerifyRouteImport
+      parentRoute: typeof AuthenticatedChefRouteRoute
+    }
     '/_authenticated/chef/profile': {
       id: '/_authenticated/chef/profile'
       path: '/profile'
@@ -707,6 +726,7 @@ interface AuthenticatedChefRouteRouteChildren {
   AuthenticatedChefOrdersRoute: typeof AuthenticatedChefOrdersRoute
   AuthenticatedChefPayoutsRoute: typeof AuthenticatedChefPayoutsRoute
   AuthenticatedChefProfileRoute: typeof AuthenticatedChefProfileRoute
+  AuthenticatedChefVerifyRoute: typeof AuthenticatedChefVerifyRoute
   AuthenticatedChefIndexRoute: typeof AuthenticatedChefIndexRoute
 }
 
@@ -716,6 +736,7 @@ const AuthenticatedChefRouteRouteChildren: AuthenticatedChefRouteRouteChildren =
     AuthenticatedChefOrdersRoute: AuthenticatedChefOrdersRoute,
     AuthenticatedChefPayoutsRoute: AuthenticatedChefPayoutsRoute,
     AuthenticatedChefProfileRoute: AuthenticatedChefProfileRoute,
+    AuthenticatedChefVerifyRoute: AuthenticatedChefVerifyRoute,
     AuthenticatedChefIndexRoute: AuthenticatedChefIndexRoute,
   }
 
